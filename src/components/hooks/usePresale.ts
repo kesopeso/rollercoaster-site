@@ -8,7 +8,8 @@ import { Log } from 'web3-core/types';
 
 interface IContributionAccepted {
     _contributor: string;
-    _contribution: string;
+    _partialContribution: string;
+    _totalContribution: string;
     _receivedTokens: string;
     _contributions: string;
 }
@@ -232,28 +233,22 @@ const usePresale = (): IPresaleData => {
             return;
         }
         
-        let shouldHandleEvent = true;
         const contributionAcceptedEventSubscription = getContributionAcceptedEventSubscription(
             web3,
-            ({ _contributor, _contribution, _receivedTokens, _contributions }) => {
+            ({ _contributor, _totalContribution, _receivedTokens, _contributions }) => {
                 
-                if(!shouldHandleEvent) {
-                    return;
-                }
-                
-                const investedAmount = Web3.utils.toBN(_contribution);
                 const collectedSupply = Web3.utils.toBN(_contributions);
                 setPresaleData((currentData) => ({
                     ...currentData,
                     collectedSupply,
                     accountContribution:
                         account?.toLowerCase() === _contributor.toLowerCase()
-                            ? currentData.accountContribution.add(investedAmount)
+                            ? Web3.utils.toBN(_totalContribution)
                             : currentData.accountContribution,
                 }));
             }
         );
-
+        
         (async () => {
             updatePresaleData({ isLoading: true });
 
@@ -285,7 +280,6 @@ const usePresale = (): IPresaleData => {
         })();
 
         return () => {
-            shouldHandleEvent = false;
             !!contributionAcceptedEventSubscription && contributionAcceptedEventSubscription.unsubscribe();
         };
     }, [

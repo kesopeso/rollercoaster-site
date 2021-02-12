@@ -13,7 +13,13 @@ export default [
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "_contribution",
+        "name": "_partialContribution",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_totalContribution",
         "type": "uint256"
       },
       {
@@ -67,19 +73,6 @@ export default [
     "anonymous": false,
     "inputs": [],
     "name": "PresaleStarted",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "address",
-        "name": "_contributor",
-        "type": "address"
-      }
-    ],
-    "name": "Test",
     "type": "event"
   },
   {
