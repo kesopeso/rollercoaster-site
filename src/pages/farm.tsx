@@ -94,7 +94,6 @@ const Farm: React.FC<{}> = () => {
 
     const availableAmountForStakingDisplay = farmTokenValueDisplayer(activeFarm, availableAmountForStaking);
 
-    const showStaking = account?.toLowerCase() === process.env.NEXT_PUBLIC_FARM_STAKING_ADDRESS?.toLowerCase();
     const [actionSection, setActionSection] = useState<FarmActionSection>(FarmActionSection.APPROVE);
 
     const {

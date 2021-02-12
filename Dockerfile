@@ -6,7 +6,6 @@ ARG presale_contract_address
 ARG liquidity_lock_contract_address
 ARG roll_farm_contract_address
 ARG roll_eth_farm_contract_address
-ARG farm_staking_address
 ARG buy_back_contract_address
 
 ENV NEXTJS_ENVIRONMENT=${nextjs_environment}
@@ -15,7 +14,6 @@ ENV PRESALE_CONTRACT_ADDRESS=${presale_contract_address}
 ENV LIQUIDITY_LOCK_CONTRACT_ADDRESS=${liquidity_lock_contract_address}
 ENV ROLL_FARM_CONTRACT_ADDRESS=${up_farm_contract_address}
 ENV ROLL_ETH_FARM_CONTRACT_ADDRESS=${up_eth_farm_contract_address}
-ENV FARM_STAKING_ADDRESS=${farm_staking_address}
 ENV BUY_BACK_CONTRACT_ADDRESS=${buy_back_contract_address}
 
 WORKDIR /app
