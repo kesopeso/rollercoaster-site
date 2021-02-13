@@ -46,7 +46,7 @@ const Presale: React.FC<{}> = () => {
                             <div className="col-12 col-md-7 col-lg-6">
                                 <h1 className="text-primary">Presale</h1>
                                 <p className="lead text-muted">
-                                    <b>Presale</b> investors will get <b>1 ROLL</b> for 1 ETH and <b>listing</b> price will be <b>11 tokes</b> for 1 ETH.
+                                    <b>Presale</b> investors will get <b>100 ROLL</b> for 1 ETH and <b>listing</b> price will be <b>45 ROLL</b> for 1 ETH.
                                     Presale will stop as soon as the hard cap is reached. 
                                     If the hard cap isn't reached, we will open contributions for everyone on the FCFS basis.
                                     FCFS duration will be announced on our official channels (Discord, Telegram).</p>

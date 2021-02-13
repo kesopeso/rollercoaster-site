@@ -9,6 +9,7 @@ import useOnClickLoadingButton from '../components/hooks/useOnClickLoadingButton
 import useBuybackActionButtons from '../components/hooks/useBuybackActionButtons';
 import ComponentLoader, { ComponentLoaderColor } from '../components/component-loader';
 import BuyBackTimer from '../components/buyback-timer';
+import { formatDisplayNumber } from '../utils/numbers';
 
 const BuyBack: React.FC<{}> = () => {
 
@@ -34,6 +35,9 @@ const BuyBack: React.FC<{}> = () => {
     const buyBackRemaingAmount = totalBuyBack.sub(new BN(alreadyBoughtBack));
     const buyBackRemaingAmountDisplay = Web3.utils.fromWei(buyBackRemaingAmount);
 
+    const singleBuybackAmountToDisplay = !!isInitialized && isNetworkSupported && isEthProviderAvailable ?
+        ` (earn ${formatDisplayNumber(Web3.utils.fromWei(singleBuyBack.div(new BN('100'))))} ETH)` : '';
+
     return (
         <>
             <Head>
@@ -50,8 +54,9 @@ const BuyBack: React.FC<{}> = () => {
                             <div className="col-12 col-md-6 order-md-1">
                                 <h1 className="text-primary">Buy Back</h1>
                                 <p className="lead text-center text-md-left text-muted my-4">
-                                    Do you want to earn extra ETH in just few clicks? Trigger buyback proccess first and earn reward.
-                                    User who will fist trigger buyback transaction will be rewarded 1% of total buyback amount.
+                                    Do you want to earn some extra ETH in just one click? 
+                                    Be the first to trigger the buyback proccess and earn 1% of the executed buyback amount{singleBuybackAmountToDisplay}.
+                                    In order to do so, you need to hold at least 300 ROLL tokens.
                                 </p>
                                 {isLoading ? (
                                     <ComponentLoader color={ComponentLoaderColor.DARK} className="py-3" />
@@ -106,19 +111,15 @@ const BuyBack: React.FC<{}> = () => {
                                 </div>
                                 {!!isInitialized && isNetworkSupported && isEthProviderAvailable && (
                                     <>
-                                        <div className="col-3 offset-2 border-right">
+                                        <div className="col-3 offset-3 border-right">
                                             <h5>
-                                                {buyBackRemaingAmountDisplay}
+                                                {formatDisplayNumber(buyBackRemaingAmountDisplay)}
                                             </h5>
-                                            <span className="lead text-muted">ETH to be bought back</span>
-                                        </div>
-                                        <div className="col-3 border-right">
-                                            <h5>{totalBuyBackDisplay}</h5>
-                                            <span className="lead text-muted">Total ETH</span>
+                                            <span className="lead text-muted">Executed buyback</span>
                                         </div>
                                         <div className="col-3">
-                                            <h5>{singleBuyBackDisplay}</h5>
-                                            <span className="lead text-muted">ETH single amount</span>
+                                            <h5>{formatDisplayNumber(totalBuyBackDisplay)}</h5>
+                                            <span className="lead text-muted">Total buyback</span>
                                         </div>
                                     </>
                                 )}

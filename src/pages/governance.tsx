@@ -5,13 +5,14 @@ import { useContext } from 'react';
 import useGovernance from '../components/hooks/useGovernance';
 import Web3 from 'web3';
 import { getEtherScanUrl } from '../utils/urls';
+import { formatDisplayNumber } from '../utils/numbers';
 
 const Governance: React.FC<{}> = () => {
 
     const { web3, isLoading, isEthProviderAvailable, isNetworkSupported } = useContext(Web3Context);
     const { treasuryBalance, treasuryContractAddress } = useGovernance(isLoading, isEthProviderAvailable, isNetworkSupported, web3);
     
-    const treasuryBalanceDisplay = Web3.utils.fromWei(treasuryBalance);
+    const treasuryBalanceDisplay = formatDisplayNumber(Web3.utils.fromWei(treasuryBalance));
     
     return (
         <>

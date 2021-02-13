@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import { useContext, useState } from 'react';
 import { Farm as FarmType } from '../utils/enums';
+import { formatDisplayNumber } from '../utils/numbers';
 import Card from '../components/card';
 import Alert, { AlertType } from '../components/alert';
 import useFarm from '../components/hooks/useFarm';
@@ -74,25 +75,27 @@ const Farm: React.FC<{}> = () => {
     const farmAddress = !!farmContract ? farmContract.options.address : '';
     const farmTokenAddress = !!farmTokenContract ? farmTokenContract.options.address : '';
     const isAccountConnected = !!account;
-    const totalRollSupplyDisplay = Web3.utils.fromWei(totalRollSupply);
-    const dailyRollRewardDisplay = Web3.utils.fromWei(dailyRollReward);
+    const totalRollSupplyDisplay = formatDisplayNumber(Web3.utils.fromWei(totalRollSupply));
+    const dailyRollRewardDisplay = formatDisplayNumber(Web3.utils.fromWei(dailyRollReward));
     const nextHalvingFormatted =
         nextHalvingTimestamp > 0 ? formatDate(fromUnixTime(nextHalvingTimestamp), 'MM/dd/yyyy') : '';
-    const yourStakeDisplay = farmTokenValueDisplayer(activeFarm, stakedAmount);
-    const totalStakeDisplay = farmTokenValueDisplayer(activeFarm, totalStakedAmount);
+    const yourStakeDisplay = formatDisplayNumber(farmTokenValueDisplayer(activeFarm, stakedAmount));
+    const totalStakeDisplay = formatDisplayNumber(farmTokenValueDisplayer(activeFarm, totalStakedAmount));
     const totalStakeNumber = Number(totalStakeDisplay);
     const yourStakeNumber = Number(yourStakeDisplay);
     const yourStakePercent = totalStakeNumber > 0 ? (yourStakeNumber * 100) / totalStakeNumber : 0;
     const yourDailyRollReward = dailyRollReward
         .mul(Web3.utils.toBN(Math.floor(yourStakePercent)))
         .div(Web3.utils.toBN(100));
-    const yourDailyRollRewardDisplay = Web3.utils.fromWei(yourDailyRollReward);
-    const harvestableRewardDisplay = Web3.utils.fromWei(harvestableReward);
+    const yourDailyRollRewardDisplay = formatDisplayNumber(Web3.utils.fromWei(yourDailyRollReward));
+    const harvestableRewardDisplay = formatDisplayNumber(Web3.utils.fromWei(harvestableReward));
 
-    const claimableHarvestedRewardDisplay = Web3.utils.fromWei(claimableHarvestedReward);
-    const totalHarvestedRewardDisplay = Web3.utils.fromWei(totalHarvestedReward);
+    const claimableHarvestedRewardDisplay = formatDisplayNumber(Web3.utils.fromWei(claimableHarvestedReward));
+    const totalHarvestedRewardDisplay = formatDisplayNumber(Web3.utils.fromWei(totalHarvestedReward));
 
-    const availableAmountForStakingDisplay = farmTokenValueDisplayer(activeFarm, availableAmountForStaking);
+    const availableAmountForStakingDisplay = formatDisplayNumber(farmTokenValueDisplayer(activeFarm, availableAmountForStaking));
+    
+    const apyPercentDisplay = Math.round(apyPercent);
 
     const [actionSection, setActionSection] = useState<FarmActionSection>(FarmActionSection.APPROVE);
 
@@ -173,6 +176,7 @@ const Farm: React.FC<{}> = () => {
         onClaimClick
     );
 
+
     return (
         <>
             <Head>
@@ -192,21 +196,21 @@ const Farm: React.FC<{}> = () => {
                                 <div className="col-lg-7">
                                     <h1 className="text-primary">Farming</h1>
                                     < br />
-                                            
+
                                     <p className="lead text-muted mb-4">
                                         Every pool is allocated a certain amount of ROLL tokens immediately after the presale ends.
                                         Every 10 days reward halving occures, starting with the half of the pool's total tokens allocation.
                                         Rewards are distributed among the pool contributors.
-                                        Initial ROLL tokens supply per pool is defined below. 
+                                        Initial ROLL tokens supply per pool is defined below.
                                         {!isLoading && isDataValid && (
-                                            <span> You can find farm address on &nbsp; 
+                                            <span> You can find farm address on &nbsp;
                                                 <a
                                                     href={getEtherScanUrl(`address/${farmAddress}`)}
                                                     className="text-primary font-weight-bold"
                                                     target="_blank"
                                                 >
-                                                etherscan
-                                                </a> 
+                                                    etherscan
+                                                </a>
                                             </span>
                                         )}
                                     </p>
@@ -252,7 +256,7 @@ const Farm: React.FC<{}> = () => {
                                                 {!isLoading ? (
                                                     <>
                                                         {isDataValid ? (
-                                                            <h5>{apyPercent}</h5>
+                                                            <h5>{apyPercentDisplay}</h5>
                                                         ) : (
                                                                 <Alert type={AlertType.WARNING}>
                                                                     Data unavailable.
@@ -266,7 +270,7 @@ const Farm: React.FC<{}> = () => {
                                                     )}
                                                 <span className="lead text-muted">APY</span>
                                             </div>
-                                            <div className="col-3 text-center border-right">
+                                            <div className="col-3 text-center">
                                                 {!isLoading ? (
                                                     <>
                                                         {isDataValid ? (
@@ -284,7 +288,7 @@ const Farm: React.FC<{}> = () => {
                                                     )}
                                                 <span className="lead text-muted">Next Halving</span>
                                             </div>
-                                            
+
                                         </div>
                                     )}
                                 </div>

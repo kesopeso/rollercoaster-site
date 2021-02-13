@@ -107,7 +107,7 @@ const useHarvestHistory = (farm: Farm, onClaimsLoaded: () => void) => {
             const harvestInterval = 86400;
             const harvestChunks = !!account
                 ? (
-                      await farmContract.getPastEvents('HarvestCreated', {
+                      await farmContract.getPastEvents('Harvest', {
                           fromBlock: 0,
                           toBlock: 'latest',
                           filter: { _staker: account },
@@ -170,7 +170,7 @@ const useHarvestHistory = (farm: Farm, onClaimsLoaded: () => void) => {
             updateHarvestChunkClaims({ harvestChunkIdx, areClaimsLoading: true });
             (async () => {
                 const claims = (
-                    await farmContract.getPastEvents('RewardClaimed', {
+                    await farmContract.getPastEvents('Claim', {
                         fromBlock: 0,
                         toBlock: 'latest',
                         filter: { _staker: account, _harvestId: harvestChunkIdx.toString() },

@@ -201,8 +201,8 @@ const useFarm = (activeFarm: Farm) => {
             const rewardIntervalLengthInDays = Web3.utils.toBN(
                 (await farmContract.methods.REWARD_HALVING_INTERVAL().call()) / (60 * 60 * 24)
             );
-            
             const dailyRollReward = currentIntervalTotalReward.div(rewardIntervalLengthInDays);
+            
             
             const nextHalvingTimestamp = Number(await farmContract.methods.nextIntervalTimestamp().call());
             updateFarmData({

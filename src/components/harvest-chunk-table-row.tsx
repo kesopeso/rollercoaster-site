@@ -2,6 +2,7 @@ import { format as formatDate, fromUnixTime } from 'date-fns';
 import Web3 from 'web3';
 import { IHarvestChunk } from './hooks/useHarvestHistory';
 import BN from 'bn.js';
+import { formatDisplayNumber } from '../utils/numbers';
 
 export interface HarvestChunkTableRowProps {
     harvestChunkIndex: number;
@@ -34,12 +35,12 @@ const HarvestChunkTableRow: React.FC<HarvestChunkTableRowProps> = ({
         <tr className="text-muted">
             <td className="text-right">{harvestChunkIndex + 1}</td>
             <td className="text-right">{formatDate(fromUnixTime(timestamp), 'PPppp')}</td>
-            <td className="text-right">{Web3.utils.fromWei(amount)} ROLL</td>
-            <td className="text-right">{Web3.utils.fromWei(claimableAmount)} ROLL</td>
+            <td className="text-right">{formatDisplayNumber(Web3.utils.fromWei(amount))} ROLL</td>
+            <td className="text-right">{formatDisplayNumber(Web3.utils.fromWei(claimableAmount))} ROLL</td>
             <td className="text-right">{claimablePercent} %</td>
             {!isLoadingClaimed ? (
                 <>
-                    <td className="text-right">{Web3.utils.fromWei(claimed)} ROLL</td>
+                    <td className="text-right">{formatDisplayNumber(Web3.utils.fromWei(claimed))} ROLL</td>
                     <td className="text-right">{claimedPercent} %</td>
                 </>
             ) : (
