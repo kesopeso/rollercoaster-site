@@ -12,7 +12,7 @@ const Governance: React.FC<{}> = () => {
     const { treasuryBalance, treasuryContractAddress } = useGovernance(isLoading, isEthProviderAvailable, isNetworkSupported, web3);
     
     const treasuryBalanceDisplay = Web3.utils.fromWei(treasuryBalance);
-    const treasuryContractAddressDisplay = treasuryContractAddress?.slice(0,6) + "..." + treasuryContractAddress?.slice(-4);
+    
     return (
         <>
             <Head>

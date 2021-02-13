@@ -27,7 +27,6 @@ const useGovernance = (isLoading: boolean, isEthProviderAvailable: boolean, isNe
         );
         (async() => {
             const balance = Web3.utils.toBN(await contract.methods.balanceOf(treasuryContractAddress).call());
-            console.log(balance.toString());
             setTreasuryBalance(balance);
         })();
         

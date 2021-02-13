@@ -12,7 +12,7 @@ import BuyBackTimer from '../components/buyback-timer';
 
 const BuyBack: React.FC<{}> = () => {
 
-    const { account, isEthProviderAvailable, isNetworkSupported } = useContext(Web3Context);
+    const { web3, account, isEthProviderAvailable, isNetworkSupported } = useContext(Web3Context);
 
     const {
         isLoading,
@@ -23,7 +23,7 @@ const BuyBack: React.FC<{}> = () => {
         alreadyBoughtBack,
     } = useBuyBack();
 
-    const { onBuybackClick } = useBuybackActionButtons();
+    const { onBuybackClick } = useBuybackActionButtons(web3, isEthProviderAvailable, isNetworkSupported, account);
 
     const { isLoading: isbuybackLoading, onClickWithLoading: buybackOnClickWithLoading } = useOnClickLoadingButton(
         onBuybackClick
