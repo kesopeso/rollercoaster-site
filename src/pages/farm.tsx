@@ -161,24 +161,11 @@ const Farm: React.FC<{}> = () => {
     });
     const areWithdrawInputsDisabled = isWithdrawDisabled || isWithdrawLoading || isWithdrawAllLoading;
 
-    const [inputHarvestAmount, setInputHarvestAmount] = useState('')
     const isHarvestDisabled = harvestableReward.isZero();
     const { isLoading: isHarvestLoading, onClickWithLoading: harvestOnClickWithLoading } = useOnClickLoadingButton(
         async () => {
 
-            const inputHarvestLimitAsNumber = Number(inputHarvestAmount);
-
-            if (isNaN(inputHarvestLimitAsNumber)) {
-                alert('Please input a valid number.');
-                return;
-            }
-            const inputHarvestLimitAsBigNumber = new BN(Web3.utils.toWei(inputHarvestAmount));
-            if (inputHarvestLimitAsBigNumber.lt(new BN(0))) {
-                alert('Please input a valid number.');
-                return;
-            }
-
-            await onHarvestClick(inputHarvestLimitAsNumber);
+            await onHarvestClick();
         }
     );
     const isClaimDisabled = claimableHarvestedReward.isZero();
@@ -702,59 +689,24 @@ const Farm: React.FC<{}> = () => {
                                                                                             To harvest the reward and later on be
                                                                                             able to claim it, click on the button
                                                                                             below.
-                                                                                    </p>
-
+                                                                                        </p>
                                                                                         <div className="form-group">
                                                                                             <label className="mb-0 font-weight-bold">
                                                                                                 Harvestable reward
-                                                                                        </label>
+                                                                                            </label>
                                                                                             <span className="d-block">
                                                                                                 {harvestableRewardDisplay} ROLL
-                                                                                        </span>
+                                                                                            </span>
                                                                                         </div>
 
-                                                                                        <div className="form-group">
-                                                                                            <form
-                                                                                                className="form-inline"
-                                                                                                onSubmit={(e) => {
-                                                                                                    e.preventDefault();
-                                                                                                    harvestOnClickWithLoading();
-                                                                                                }}
-                                                                                            >
-                                                                                                <div className="input-group">
-                                                                                                    <input
-                                                                                                        disabled={
-                                                                                                            isHarvestDisabled
-                                                                                                        }
-                                                                                                        type="number"
-                                                                                                        className="form-control"
-                                                                                                        placeholder="snapshots to harvest"
-                                                                                                        aria-label="snapshots to withdraw"
-                                                                                                        min="0"
-                                                                                                        step="1"
-                                                                                                        onChange={(e) =>
-                                                                                                            setInputHarvestAmount(
-                                                                                                                e.target.value
-                                                                                                            )
-                                                                                                        }
-                                                                                                        value={inputHarvestAmount}
-                                                                                                    />
-                                                                                                    <div className="input-group-append">
-                                                                                                        <ActionButton
-                                                                                                            isLoading={
-                                                                                                                isHarvestLoading
-                                                                                                            }
-                                                                                                            isDisabled={
-                                                                                                                isHarvestDisabled
-                                                                                                            }
-                                                                                                            type="submit"
-                                                                                                        >
-                                                                                                            Harvest
-                                                                                                    </ActionButton>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            </form>
-                                                                                        </div>
+                                                                                        <ActionButton
+                                                                                            isLoading={isHarvestLoading}
+                                                                                            onClick={harvestOnClickWithLoading}
+                                                                                            isDisabled={isHarvestDisabled}
+                                                                                        >
+                                                                                            Harvest
+                                                                                        </ActionButton>
+
                                                                                     </>
                                                                                 )}
                                                                                 {actionSection === FarmActionSection.CLAIM && (

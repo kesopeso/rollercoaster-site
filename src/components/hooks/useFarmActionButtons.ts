@@ -55,12 +55,12 @@ const useFarmActionButtons = (
         await onWithdrawClick(withdrawAmount);
     }, [farmContract, account, refreshFarmData, onWithdrawClick]);
 
-    const onHarvestClick = useCallback(async (snapshotLimit: number) => {
+    const onHarvestClick = useCallback(async () => {
 
         if (!farmContract || !account) {
             return;
         }
-        await farmContract.methods.harvest(snapshotLimit).send({ from: account });
+        await farmContract.methods.harvest().send({ from: account });
         await refreshFarmData(false);
     }, [farmContract, account, refreshFarmData]);
 
