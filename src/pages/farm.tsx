@@ -205,9 +205,16 @@ const Farm: React.FC<{}> = () => {
 
                                     <p className="lead text-muted mb-4">
                                         Every pool is allocated a certain amount of ROLL tokens immediately after the
-                                        presale ends. Every 10 days reward halving occures, starting with the half of
-                                        the pool's total tokens allocation. Rewards are distributed among the pool
-                                        contributors. Initial ROLL tokens supply per pool is defined below.
+                                        presale ends. Every 10 days reward reduction occurs. Reward reduction formula:
+                                        <br />
+                                        new reward supply = current reward supply - interval reward;
+                                        <br />
+                                        new interval reward = 0.2 * new reward supply.
+                                        <br />
+                                        new daily reward = new interval reward / 10;
+                                        <br />
+                                        Rewards are distributed among the pool contributors. Initial ROLL tokens supply
+                                        per pool is defined below.
                                         {!isLoading && isDataValid && (
                                             <span>
                                                 {' '}

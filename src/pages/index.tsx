@@ -99,9 +99,8 @@ const Home: React.FC<{}> = () => {
                                         <h3 className="title">Farming</h3>
                                         <p className="description">
                                             Every pool is allocated a certain amount of ROLL tokens immediately after
-                                            the presale ends. Every 10 days reward halving occurs, starting with the
-                                            half of the pool's total tokens allocation. Rewards are distributed among
-                                            the pool contributors.
+                                            the presale ends. Every 10 days reward reduction occurs. Rewards are
+                                            distributed among the pool contributors proportionally to their pool share.
                                         </p>
                                     </div>
                                 </div>
