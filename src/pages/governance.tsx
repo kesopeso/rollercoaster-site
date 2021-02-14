@@ -30,7 +30,12 @@ const Governance: React.FC<{}> = () => {
                                 <div className="col-12 col-md-5 col-lg-6 order-md-2">
                                     <h1 className="text-primary">Governance</h1>
                                     <p className="lead text-muted my-4">
-                                    Decentralized Autonomous Organizations are entities or ventures that operate based on Smart Contracts or executable programs/protocols. Mostly created on the Ethereum Network due to its Smart Contract capability, the DAO has no conventional management structure and its codes are open source. A Decentralized Autonomous form of governance confers privileges and right to vote or form a consensus regarding critical decisions on its members that might not be geographically concentrated, who are obligated to participate actively in the decision making the process of the organization.
+                                        ROLL presents a governance infrastructure, which will be absolutely open to the changes our community would impose.
+                                        It enables upgrade or improvement of the protocol as the community sees fit.
+                                        With each transaction your ROLL ticket makes 5% of tokens will get burned and sent to Treasury.
+                                        From each Buyback all ROLL tokens will be sent to Treasury address as well.
+                                        The longer you occupy your seats, the higher our ROLLER will take you! 
+                                        Don’t sell your ticket cheap!
                                     </p>
                                     <div className="col"><span className="text-muted lead">Balance: </span>{treasuryBalanceDisplay} ROLL</div>
                                     <div className="col"><span className="text-muted lead">Address: </span>
@@ -48,7 +53,7 @@ const Governance: React.FC<{}> = () => {
                         <div className="container">
                             <div className="row text-center">
                                 <div className="col">
-                                    <h1>Comming soon stay tuned</h1>
+                                    <h1>Coming soon stay tuned</h1>
                                 </div>
                             </div>
                         </div>
