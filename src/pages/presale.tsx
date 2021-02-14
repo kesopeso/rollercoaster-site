@@ -54,10 +54,10 @@ const Presale: React.FC<{}> = () => {
                                     will be <b>45 ROLL</b> for 1 ETH. Presale will stop as soon as the hard cap is
                                     reached. If the hard cap isn't reached, we will open contributions for everyone on
                                     the FCFS basis. FCFS duration will be announced on our official channels (Discord,
-                                    Telegram). 60% of the collected funds (360 ETH) is going to be used for Uniswap liqudity
-                                    At the Uniswap listing we're going to inject 120 ETH + 5400 ROLL to the liqudity pool. 
+                                    Telegram). 60% of the collected funds (360 ETH) is going to be used for Uniswap liqudity.
+                                    At the Uniswap listing we're going to inject 120 ETH + 5400 ROLL to the liquidity pool. 
                                     We'll start adding 24 ETH to liquidity each day after the listing on Uniswap, and so on for the next 10 days (360ETH in total). 
-                                    Liquidity will be locked for 6 months
+                                    Liquidity will be locked for 6 months.
                                 </p>
                                 <div className="row">
                                     <div className="col-1">
