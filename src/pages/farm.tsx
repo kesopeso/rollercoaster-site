@@ -29,7 +29,7 @@ export enum FarmActionSection {
 const getBuyFarmTokensLink = (farm: FarmType, farmTokenAddress: string) => {
     switch (farm) {
         case FarmType.ROLL:
-            return `https://app.uniswap.org/#/swap?inputCurrency=${process.env.NEXT_PUBLIC_TOKEN_CONTRACT_ADDRESS}`;
+            return `https://app.uniswap.org/#/swap?outputCurrency=${process.env.NEXT_PUBLIC_TOKEN_CONTRACT_ADDRESS}`;
 
         case FarmType.ROLL_ETH:
             return `https://app.uniswap.org/#/add/ETH/${process.env.NEXT_PUBLIC_TOKEN_CONTRACT_ADDRESS}`;
@@ -77,8 +77,10 @@ const Farm: React.FC<{}> = () => {
     const isAccountConnected = !!account;
     const totalRollSupplyDisplay = formatDisplayNumber(Web3.utils.fromWei(totalRollSupply));
     const dailyRollRewardDisplay = formatDisplayNumber(Web3.utils.fromWei(dailyRollReward));
-    const nextHalvingFormatted =
+    const nextHalvingFormattedDate =
         nextHalvingTimestamp > 0 ? formatDate(fromUnixTime(nextHalvingTimestamp), 'MM/dd/yyyy') : '';
+    const nextHalvingFormattedTime =
+        nextHalvingTimestamp > 0 ? formatDate(fromUnixTime(nextHalvingTimestamp), 'HH:mm:ss') : '';
     const yourStakeDisplay = formatDisplayNumber(farmTokenValueDisplayer(activeFarm, stakedAmount));
     const totalStakeDisplay = formatDisplayNumber(farmTokenValueDisplayer(activeFarm, totalStakedAmount));
     const totalStakeNumber = Number(totalStakeDisplay);
@@ -93,8 +95,10 @@ const Farm: React.FC<{}> = () => {
     const claimableHarvestedRewardDisplay = formatDisplayNumber(Web3.utils.fromWei(claimableHarvestedReward));
     const totalHarvestedRewardDisplay = formatDisplayNumber(Web3.utils.fromWei(totalHarvestedReward));
 
-    const availableAmountForStakingDisplay = formatDisplayNumber(farmTokenValueDisplayer(activeFarm, availableAmountForStaking));
-    
+    const availableAmountForStakingDisplay = formatDisplayNumber(
+        farmTokenValueDisplayer(activeFarm, availableAmountForStaking)
+    );
+
     const apyPercentDisplay = Math.round(apyPercent);
 
     const [actionSection, setActionSection] = useState<FarmActionSection>(FarmActionSection.APPROVE);
@@ -167,7 +171,6 @@ const Farm: React.FC<{}> = () => {
     const isHarvestDisabled = harvestableReward.isZero();
     const { isLoading: isHarvestLoading, onClickWithLoading: harvestOnClickWithLoading } = useOnClickLoadingButton(
         async () => {
-
             await onHarvestClick();
         }
     );
@@ -175,7 +178,6 @@ const Farm: React.FC<{}> = () => {
     const { isLoading: isClaimLoading, onClickWithLoading: claimOnClickWithLoading } = useOnClickLoadingButton(
         onClaimClick
     );
-
 
     return (
         <>
@@ -188,22 +190,28 @@ const Farm: React.FC<{}> = () => {
                         <div className="container">
                             <div className="row">
                                 <div className="col-lg-8 offset-lg-2">
-                                    <FarmSelection isLoading={isLoading} activeFarm={activeFarm} setActiveFarm={setActiveFarm} />
+                                    <FarmSelection
+                                        isLoading={isLoading}
+                                        activeFarm={activeFarm}
+                                        setActiveFarm={setActiveFarm}
+                                    />
                                 </div>
                             </div>
 
                             <div className="row align-items-center py-6">
                                 <div className="col-lg-7">
                                     <h1 className="text-primary">Farming</h1>
-                                    < br />
+                                    <br />
 
                                     <p className="lead text-muted mb-4">
-                                        Every pool is allocated a certain amount of ROLL tokens immediately after the presale ends.
-                                        Every 10 days reward halving occures, starting with the half of the pool's total tokens allocation.
-                                        Rewards are distributed among the pool contributors.
-                                        Initial ROLL tokens supply per pool is defined below.
+                                        Every pool is allocated a certain amount of ROLL tokens immediately after the
+                                        presale ends. Every 10 days reward halving occures, starting with the half of
+                                        the pool's total tokens allocation. Rewards are distributed among the pool
+                                        contributors. Initial ROLL tokens supply per pool is defined below.
                                         {!isLoading && isDataValid && (
-                                            <span> You can find farm address on &nbsp;
+                                            <span>
+                                                {' '}
+                                                You can find farm address on &nbsp;
                                                 <a
                                                     href={getEtherScanUrl(`address/${farmAddress}`)}
                                                     className="text-primary font-weight-bold"
@@ -220,75 +228,73 @@ const Farm: React.FC<{}> = () => {
                                                 {!isLoading ? (
                                                     <>
                                                         {isDataValid ? (
-                                                            <h5>{totalRollSupplyDisplay}</h5>
+                                                            <h5>
+                                                                {totalRollSupplyDisplay}
+                                                                <br />
+                                                                ROLL
+                                                            </h5>
                                                         ) : (
-                                                                <Alert type={AlertType.WARNING}>
-                                                                    Data unavailable.
-                                                                </Alert>
-                                                            )}
+                                                            <Alert type={AlertType.WARNING}>Data unavailable.</Alert>
+                                                        )}
                                                     </>
                                                 ) : (
-                                                        <ComponentLoader
-                                                            color={ComponentLoaderColor.DARK}
-                                                        />
-                                                    )}
+                                                    <ComponentLoader color={ComponentLoaderColor.DARK} />
+                                                )}
                                                 <span className="lead text-muted">Farm supply</span>
                                             </div>
                                             <div className="col-3 text-center border-right">
                                                 {!isLoading ? (
                                                     <>
                                                         {isDataValid ? (
-                                                            <h5>{dailyRollRewardDisplay}</h5>
+                                                            <h5>
+                                                                {dailyRollRewardDisplay}
+                                                                <br />
+                                                                ROLL
+                                                            </h5>
                                                         ) : (
-                                                                <Alert type={AlertType.WARNING}>
-                                                                    Data unavailable.
-                                                                </Alert>
-                                                            )}
+                                                            <Alert type={AlertType.WARNING}>Data unavailable.</Alert>
+                                                        )}
                                                     </>
                                                 ) : (
-                                                        <ComponentLoader
-                                                            color={ComponentLoaderColor.DARK}
-                                                        />
-                                                    )}
+                                                    <ComponentLoader color={ComponentLoaderColor.DARK} />
+                                                )}
                                                 <span className="lead text-muted">Daily reward</span>
                                             </div>
                                             <div className="col-3 text-center border-right">
                                                 {!isLoading ? (
                                                     <>
                                                         {isDataValid ? (
-                                                            <h5>{apyPercentDisplay}</h5>
+                                                            <h5>
+                                                                {apyPercentDisplay}
+                                                                <br />%
+                                                            </h5>
                                                         ) : (
-                                                                <Alert type={AlertType.WARNING}>
-                                                                    Data unavailable.
-                                                                </Alert>
-                                                            )}
+                                                            <Alert type={AlertType.WARNING}>Data unavailable.</Alert>
+                                                        )}
                                                     </>
                                                 ) : (
-                                                        <ComponentLoader
-                                                            color={ComponentLoaderColor.DARK}
-                                                        />
-                                                    )}
+                                                    <ComponentLoader color={ComponentLoaderColor.DARK} />
+                                                )}
                                                 <span className="lead text-muted">APY</span>
                                             </div>
                                             <div className="col-3 text-center">
                                                 {!isLoading ? (
                                                     <>
                                                         {isDataValid ? (
-                                                            <h5>{nextHalvingFormatted}</h5>
+                                                            <h5>
+                                                                {nextHalvingFormattedDate}
+                                                                <br />
+                                                                {nextHalvingTimestamp}
+                                                            </h5>
                                                         ) : (
-                                                                <Alert type={AlertType.WARNING}>
-                                                                    Data unavailable.
-                                                                </Alert>
-                                                            )}
+                                                            <Alert type={AlertType.WARNING}>Data unavailable.</Alert>
+                                                        )}
                                                     </>
                                                 ) : (
-                                                        <ComponentLoader
-                                                            color={ComponentLoaderColor.DARK}
-                                                        />
-                                                    )}
+                                                    <ComponentLoader color={ComponentLoaderColor.DARK} />
+                                                )}
                                                 <span className="lead text-muted">Next Halving</span>
                                             </div>
-
                                         </div>
                                     )}
                                 </div>
@@ -314,17 +320,24 @@ const Farm: React.FC<{}> = () => {
                                                             <div className="card-body">
                                                                 <div className="row no-gutters align-items-center">
                                                                     <div className="col mr-2">
-                                                                        <div className="text-xs font-weight-bold text-primary text-uppercase mb-1">Your / total staked</div>
+                                                                        <div className="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                                            Your / total staked
+                                                                        </div>
                                                                         {!isAccountConnected ? (
                                                                             <div className="mb-0 text-xs">
                                                                                 <Alert type={AlertType.WARNING}>
-                                                                                    Connect your wallet to see your staked amout.
-                                                                            </Alert>
+                                                                                    Connect your wallet to see your
+                                                                                    staked amout.
+                                                                                </Alert>
                                                                             </div>
                                                                         ) : (
-                                                                                <div className="h5 mb-0 text-muted">
-                                                                                    {yourStakeDisplay} {farmToken} / {totalStakeDisplay}{' '} {farmToken} {' ('}{Math.floor(yourStakePercent)}{'%)'}</div>
-                                                                            )}
+                                                                            <div className="h5 mb-0 text-muted">
+                                                                                {yourStakeDisplay} {farmToken} /{' '}
+                                                                                {totalStakeDisplay} {farmToken} {' ('}
+                                                                                {Math.floor(yourStakePercent)}
+                                                                                {'%)'}
+                                                                            </div>
+                                                                        )}
                                                                     </div>
                                                                     <div className="col-auto">
                                                                         <i className="fas fa-calendar fa-2x text-muted"></i>
@@ -339,18 +352,21 @@ const Farm: React.FC<{}> = () => {
                                                             <div className="card-body">
                                                                 <div className="row no-gutters align-items-center">
                                                                     <div className="col mr-2">
-                                                                        <div className="text-xs font-weight-bold text-primary text-uppercase mb-1">Your daily reward</div>
+                                                                        <div className="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                                            Your daily reward
+                                                                        </div>
                                                                         {!isAccountConnected ? (
                                                                             <div className="mb-0 text-xs">
                                                                                 <Alert type={AlertType.WARNING}>
-                                                                                    Connect your wallet to see your daily reward.
-                                                                            </Alert>
+                                                                                    Connect your wallet to see your
+                                                                                    daily reward.
+                                                                                </Alert>
                                                                             </div>
                                                                         ) : (
-                                                                                <div className="h5 mb-0 text-muted">
-                                                                                    {yourDailyRollRewardDisplay} ROLL
-                                                                                </div>
-                                                                            )}
+                                                                            <div className="h5 mb-0 text-muted">
+                                                                                {yourDailyRollRewardDisplay} ROLL
+                                                                            </div>
+                                                                        )}
                                                                     </div>
                                                                     <div className="col-auto">
                                                                         <i className="fas fa-calendar fa-2x text-muted"></i>
@@ -365,18 +381,21 @@ const Farm: React.FC<{}> = () => {
                                                             <div className="card-body">
                                                                 <div className="row no-gutters align-items-center">
                                                                     <div className="col mr-2">
-                                                                        <div className="text-xs font-weight-bold text-primary text-uppercase mb-1">Harvestable Reward</div>
+                                                                        <div className="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                                            Harvestable Reward
+                                                                        </div>
                                                                         {!isAccountConnected ? (
                                                                             <div className="mb-0 text-xs">
                                                                                 <Alert type={AlertType.WARNING}>
-                                                                                    Connect your wallet to see your harvestable reward.
-                                                                            </Alert>
+                                                                                    Connect your wallet to see your
+                                                                                    harvestable reward.
+                                                                                </Alert>
                                                                             </div>
                                                                         ) : (
-                                                                                <div className="h5 mb-0 text-muted">
-                                                                                    {harvestableRewardDisplay} ROLL
-                                                                                </div>
-                                                                            )}
+                                                                            <div className="h5 mb-0 text-muted">
+                                                                                {harvestableRewardDisplay} ROLL
+                                                                            </div>
+                                                                        )}
                                                                     </div>
                                                                     <div className="col-auto">
                                                                         <i className="fas fa-calendar fa-2x text-muted"></i>
@@ -390,16 +409,22 @@ const Farm: React.FC<{}> = () => {
                                                             <div className="card-body">
                                                                 <div className="row no-gutters align-items-center">
                                                                     <div className="col mr-2">
-                                                                        <div className="text-xs font-weight-bold text-primary text-uppercase mb-1">Claimable / total harvested reward</div>
+                                                                        <div className="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                                            Claimable / total harvested reward
+                                                                        </div>
                                                                         {!isAccountConnected ? (
                                                                             <div className="mb-0 text-xs">
                                                                                 <Alert type={AlertType.WARNING}>
-                                                                                    Connect your wallet to see your claimable reward.
-                                                                            </Alert>
+                                                                                    Connect your wallet to see your
+                                                                                    claimable reward.
+                                                                                </Alert>
                                                                             </div>
                                                                         ) : (
-                                                                                <div className="h5 mb-0 text-muted">{claimableHarvestedRewardDisplay} /{' '} {totalHarvestedRewardDisplay} ROLL</div>
-                                                                            )}
+                                                                            <div className="h5 mb-0 text-muted">
+                                                                                {claimableHarvestedRewardDisplay} /{' '}
+                                                                                {totalHarvestedRewardDisplay} ROLL
+                                                                            </div>
+                                                                        )}
                                                                     </div>
                                                                     <div className="col-auto">
                                                                         <i className="fas fa-calendar fa-2x text-muted"></i>
@@ -426,120 +451,142 @@ const Farm: React.FC<{}> = () => {
                                                                             onClick={setActionSection}
                                                                         >
                                                                             Approve
-                                                                    </FarmActionLink>
+                                                                        </FarmActionLink>
                                                                         <FarmActionLink
                                                                             section={FarmActionSection.BUY}
                                                                             activeSection={actionSection}
                                                                             onClick={setActionSection}
                                                                         >
                                                                             Buy
-                                                                    </FarmActionLink>
+                                                                        </FarmActionLink>
                                                                         <FarmActionLink
                                                                             section={FarmActionSection.STAKE}
                                                                             activeSection={actionSection}
                                                                             onClick={setActionSection}
                                                                         >
                                                                             Stake
-                                                                    </FarmActionLink>
+                                                                        </FarmActionLink>
                                                                         <FarmActionLink
                                                                             section={FarmActionSection.WITHDRAW}
                                                                             activeSection={actionSection}
                                                                             onClick={setActionSection}
                                                                         >
                                                                             Withdraw
-                                                                    </FarmActionLink>
+                                                                        </FarmActionLink>
                                                                         <FarmActionLink
                                                                             section={FarmActionSection.HARVEST}
                                                                             activeSection={actionSection}
                                                                             onClick={setActionSection}
                                                                         >
                                                                             Harvest
-                                                                    </FarmActionLink>
+                                                                        </FarmActionLink>
                                                                         <FarmActionLink
                                                                             section={FarmActionSection.CLAIM}
                                                                             activeSection={actionSection}
                                                                             onClick={setActionSection}
                                                                         >
                                                                             Claim
-                                                                    </FarmActionLink>
+                                                                        </FarmActionLink>
                                                                     </ul>
                                                                 </div>
                                                                 <div className="col-12 col-sm-8 col-md-9">
                                                                     {!isAccountDataLoading ? (
                                                                         isAccountConnected ? (
                                                                             <>
-                                                                                {actionSection === FarmActionSection.APPROVE && (
+                                                                                {actionSection ===
+                                                                                    FarmActionSection.APPROVE && (
                                                                                     <>
                                                                                         <h3>Approve</h3>
                                                                                         <hr />
                                                                                         <p className="lead text-muted">
-                                                                                            In order for our farm smart contract to
-                                                                                            transfer your funds in and out of the
-                                                                                            farm, you need to make an approval first
-                                                                                            by clicking on the button below.
-                                                                                    </p>
+                                                                                            In order for our farm smart
+                                                                                            contract to transfer your
+                                                                                            funds in and out of the
+                                                                                            farm, you need to make an
+                                                                                            approval first by clicking
+                                                                                            on the button below.
+                                                                                        </p>
 
                                                                                         {hasApproved && (
-                                                                                            <Alert type={AlertType.SUCCESS}>
-                                                                                                You approved successfully.
+                                                                                            <Alert
+                                                                                                type={AlertType.SUCCESS}
+                                                                                            >
+                                                                                                You approved
+                                                                                                successfully.
                                                                                             </Alert>
                                                                                         )}
 
                                                                                         <ActionButton
                                                                                             isLoading={isApproveLoading}
-                                                                                            onClick={approveOnClickWithLoading}
+                                                                                            onClick={
+                                                                                                approveOnClickWithLoading
+                                                                                            }
                                                                                             isDisabled={hasApproved}
                                                                                         >
                                                                                             Approve
-                                                                                    </ActionButton>
+                                                                                        </ActionButton>
                                                                                     </>
                                                                                 )}
-                                                                                {actionSection === FarmActionSection.BUY && (
+                                                                                {actionSection ===
+                                                                                    FarmActionSection.BUY && (
                                                                                     <>
                                                                                         <h3>Buy</h3>
                                                                                         <hr />
                                                                                         <p className="lead text-muted">
-                                                                                            In order to buy tokens click link
-                                                                                    </p>
+                                                                                            In order to buy farm tokens
+                                                                                            click on the button below.
+                                                                                        </p>
                                                                                         <a
-                                                                                            href={getBuyFarmTokensLink(activeFarm, farmTokenAddress)}
+                                                                                            href={getBuyFarmTokensLink(
+                                                                                                activeFarm,
+                                                                                                farmTokenAddress
+                                                                                            )}
                                                                                             className="btn btn-outline-primary font-weight-bold text-uppercase"
                                                                                             target="_blank"
                                                                                         >
                                                                                             Buy farm tokens
-                                                                                    </a>
+                                                                                        </a>
                                                                                     </>
                                                                                 )}
-                                                                                {actionSection === FarmActionSection.STAKE && (
+                                                                                {actionSection ===
+                                                                                    FarmActionSection.STAKE && (
                                                                                     <>
                                                                                         <h3>Stake</h3>
                                                                                         <hr />
                                                                                         <p className="lead text-muted">
-                                                                                            Input the amount of tokens you want to
-                                                                                            stake. Input amount must be bigger than
-                                                                                            zero and equal or less than your
-                                                                                            available balance.
-                                                                                    </p>
+                                                                                            Input the amount of tokens
+                                                                                            you want to stake. Input
+                                                                                            amount must be bigger than
+                                                                                            zero and equal or less than
+                                                                                            your available balance.
+                                                                                        </p>
 
                                                                                         {!hasApproved && (
-                                                                                            <Alert type={AlertType.WARNING}>
-                                                                                                You need to approve before staking.
+                                                                                            <Alert
+                                                                                                type={AlertType.WARNING}
+                                                                                            >
+                                                                                                You need to approve
+                                                                                                before staking.
                                                                                             </Alert>
                                                                                         )}
 
                                                                                         {availableAmountForStaking.isZero() && (
-                                                                                            <Alert type={AlertType.WARNING}>
-                                                                                                You have no available funds for
-                                                                                                staking.
+                                                                                            <Alert
+                                                                                                type={AlertType.WARNING}
+                                                                                            >
+                                                                                                You have no available
+                                                                                                funds for staking.
                                                                                             </Alert>
                                                                                         )}
 
                                                                                         <div className="form-group">
                                                                                             <label className="mb-0 font-weight-bold">
                                                                                                 Available for staking
-                                                                                        </label>
+                                                                                            </label>
                                                                                             <span className="d-block">
-                                                                                                {availableAmountForStakingDisplay}{' '}
+                                                                                                {
+                                                                                                    availableAmountForStakingDisplay
+                                                                                                }{' '}
                                                                                                 {farmToken}
                                                                                             </span>
                                                                                         </div>
@@ -563,10 +610,13 @@ const Farm: React.FC<{}> = () => {
                                                                                                         aria-label="amount to stake"
                                                                                                         onChange={(e) =>
                                                                                                             setInputStakeAmount(
-                                                                                                                e.target.value
+                                                                                                                e.target
+                                                                                                                    .value
                                                                                                             )
                                                                                                         }
-                                                                                                        value={inputStakeAmount}
+                                                                                                        value={
+                                                                                                            inputStakeAmount
+                                                                                                        }
                                                                                                     />
                                                                                                     <div className="input-group-append">
                                                                                                         <ActionButton
@@ -579,14 +629,16 @@ const Farm: React.FC<{}> = () => {
                                                                                                             type="submit"
                                                                                                         >
                                                                                                             Stake
-                                                                                                    </ActionButton>
+                                                                                                        </ActionButton>
                                                                                                     </div>
                                                                                                 </div>
 
                                                                                                 <div className="d-block w-100 d-md-none" />
 
                                                                                                 <ActionButton
-                                                                                                    isLoading={isStakeAllLoading}
+                                                                                                    isLoading={
+                                                                                                        isStakeAllLoading
+                                                                                                    }
                                                                                                     isDisabled={
                                                                                                         areStakeInputsDisabled
                                                                                                     }
@@ -596,35 +648,40 @@ const Farm: React.FC<{}> = () => {
                                                                                                     }
                                                                                                 >
                                                                                                     Stake all
-                                                                                            </ActionButton>
+                                                                                                </ActionButton>
                                                                                             </form>
                                                                                         </div>
                                                                                     </>
                                                                                 )}
-                                                                                {actionSection === FarmActionSection.WITHDRAW && (
+                                                                                {actionSection ===
+                                                                                    FarmActionSection.WITHDRAW && (
                                                                                     <>
                                                                                         <h3>Withdrawal</h3>
                                                                                         <hr />
                                                                                         <p className="lead text-muted">
-                                                                                            Input the amount of tokens you want to
-                                                                                            withdraw. Input amount must be bigger
-                                                                                            than zero and equal or less than your
-                                                                                            staked balance.
-                                                                                    </p>
+                                                                                            Input the amount of tokens
+                                                                                            you want to withdraw. Input
+                                                                                            amount must be bigger than
+                                                                                            zero and equal or less than
+                                                                                            your staked balance.
+                                                                                        </p>
 
                                                                                         {stakedAmount.isZero() && (
-                                                                                            <Alert type={AlertType.WARNING}>
-                                                                                                You have no available funds for
-                                                                                                withdrawal.
+                                                                                            <Alert
+                                                                                                type={AlertType.WARNING}
+                                                                                            >
+                                                                                                You have no available
+                                                                                                funds for withdrawal.
                                                                                             </Alert>
                                                                                         )}
 
                                                                                         <div className="form-group">
                                                                                             <label className="mb-0 font-weight-bold">
                                                                                                 Staked amount
-                                                                                        </label>
+                                                                                            </label>
                                                                                             <span className="d-block">
-                                                                                                {yourStakeDisplay} {farmToken}
+                                                                                                {yourStakeDisplay}{' '}
+                                                                                                {farmToken}
                                                                                             </span>
                                                                                         </div>
 
@@ -647,10 +704,13 @@ const Farm: React.FC<{}> = () => {
                                                                                                         aria-label="amount to withdraw"
                                                                                                         onChange={(e) =>
                                                                                                             setInputWithdrawAmount(
-                                                                                                                e.target.value
+                                                                                                                e.target
+                                                                                                                    .value
                                                                                                             )
                                                                                                         }
-                                                                                                        value={inputWithdrawAmount}
+                                                                                                        value={
+                                                                                                            inputWithdrawAmount
+                                                                                                        }
                                                                                                     />
                                                                                                     <div className="input-group-append">
                                                                                                         <ActionButton
@@ -663,14 +723,16 @@ const Farm: React.FC<{}> = () => {
                                                                                                             type="submit"
                                                                                                         >
                                                                                                             Withdraw
-                                                                                                    </ActionButton>
+                                                                                                        </ActionButton>
                                                                                                     </div>
                                                                                                 </div>
 
                                                                                                 <div className="d-block w-100 d-lg-none" />
 
                                                                                                 <ActionButton
-                                                                                                    isLoading={isWithdrawAllLoading}
+                                                                                                    isLoading={
+                                                                                                        isWithdrawAllLoading
+                                                                                                    }
                                                                                                     isDisabled={
                                                                                                         areWithdrawInputsDisabled
                                                                                                     }
@@ -680,18 +742,20 @@ const Farm: React.FC<{}> = () => {
                                                                                                     }
                                                                                                 >
                                                                                                     Withdraw all
-                                                                                            </ActionButton>
+                                                                                                </ActionButton>
                                                                                             </form>
                                                                                         </div>
                                                                                     </>
                                                                                 )}
-                                                                                {actionSection === FarmActionSection.HARVEST && (
+                                                                                {actionSection ===
+                                                                                    FarmActionSection.HARVEST && (
                                                                                     <>
                                                                                         <h3>Harvest</h3>
                                                                                         <hr />
                                                                                         <p className="lead text-muted">
-                                                                                            To harvest the reward and later on be
-                                                                                            able to claim it, click on the button
+                                                                                            To harvest the reward and
+                                                                                            later on be able to claim
+                                                                                            it, click on the button
                                                                                             below.
                                                                                         </p>
                                                                                         <div className="form-group">
@@ -699,64 +763,83 @@ const Farm: React.FC<{}> = () => {
                                                                                                 Harvestable reward
                                                                                             </label>
                                                                                             <span className="d-block">
-                                                                                                {harvestableRewardDisplay} ROLL
+                                                                                                {
+                                                                                                    harvestableRewardDisplay
+                                                                                                }{' '}
+                                                                                                ROLL
                                                                                             </span>
                                                                                         </div>
 
                                                                                         <ActionButton
                                                                                             isLoading={isHarvestLoading}
-                                                                                            onClick={harvestOnClickWithLoading}
-                                                                                            isDisabled={isHarvestDisabled}
+                                                                                            onClick={
+                                                                                                harvestOnClickWithLoading
+                                                                                            }
+                                                                                            isDisabled={
+                                                                                                isHarvestDisabled
+                                                                                            }
                                                                                         >
                                                                                             Harvest
                                                                                         </ActionButton>
-
                                                                                     </>
                                                                                 )}
-                                                                                {actionSection === FarmActionSection.CLAIM && (
+                                                                                {actionSection ===
+                                                                                    FarmActionSection.CLAIM && (
                                                                                     <>
                                                                                         <h3>Claim</h3>
                                                                                         <hr />
                                                                                         <p className="lead text-muted">
-                                                                                            Once the reward is harvested, you will
-                                                                                            be able to claim it in parts. Every day
-                                                                                            10% of the harvested reward will be
-                                                                                            released for claiming. After one day 10%
-                                                                                            is claimable, after two days 20% is
-                                                                                            claimable, and so on...
-                                                                                    </p>
+                                                                                            Once the reward is
+                                                                                            harvested, you will be able
+                                                                                            to claim it in parts. Every
+                                                                                            day 10% of the harvested
+                                                                                            reward will be released for
+                                                                                            claiming. After one day 10%
+                                                                                            is claimable, after two days
+                                                                                            20% is claimable, and so
+                                                                                            on...
+                                                                                        </p>
 
                                                                                         <div className="form-group">
                                                                                             <label className="mb-0 font-weight-bold">
-                                                                                                Claimable / total harvested reward
-                                                                                        </label>
+                                                                                                Claimable / total
+                                                                                                harvested reward
+                                                                                            </label>
                                                                                             <span className="d-block">
-                                                                                                {claimableHarvestedRewardDisplay} /{' '}
-                                                                                                {totalHarvestedRewardDisplay} ROLL
-                                                                                        </span>
+                                                                                                {
+                                                                                                    claimableHarvestedRewardDisplay
+                                                                                                }{' '}
+                                                                                                /{' '}
+                                                                                                {
+                                                                                                    totalHarvestedRewardDisplay
+                                                                                                }{' '}
+                                                                                                ROLL
+                                                                                            </span>
                                                                                         </div>
 
                                                                                         <ActionButton
                                                                                             isLoading={isClaimLoading}
-                                                                                            onClick={claimOnClickWithLoading}
+                                                                                            onClick={
+                                                                                                claimOnClickWithLoading
+                                                                                            }
                                                                                             isDisabled={isClaimDisabled}
                                                                                         >
                                                                                             Claim
-                                                                                    </ActionButton>
+                                                                                        </ActionButton>
                                                                                     </>
                                                                                 )}
                                                                             </>
                                                                         ) : (
-                                                                                <Alert type={AlertType.WARNING}>
-                                                                                    Connect your account to start farming!
-                                                                                </Alert>
-                                                                            )
+                                                                            <Alert type={AlertType.WARNING}>
+                                                                                Connect your account to start farming!
+                                                                            </Alert>
+                                                                        )
                                                                     ) : (
-                                                                            <ComponentLoader
-                                                                                color={ComponentLoaderColor.DARK}
-                                                                                className="py-3"
-                                                                            />
-                                                                        )}
+                                                                        <ComponentLoader
+                                                                            color={ComponentLoaderColor.DARK}
+                                                                            className="py-3"
+                                                                        />
+                                                                    )}
                                                                 </div>
                                                             </div>
                                                         </Card>
@@ -766,22 +849,22 @@ const Farm: React.FC<{}> = () => {
                                         </div>
                                     </>
                                 ) : (
-                                        <div className="container">
-                                            <Alert type={AlertType.WARNING}>Farming has not started yet.</Alert>
-                                        </div>
-                                    )}
+                                    <div className="container">
+                                        <Alert type={AlertType.WARNING}>Farming has not started yet.</Alert>
+                                    </div>
+                                )}
                             </>
                         ) : (
-                                <div className="container">
-                                    <Alert type={AlertType.WARNING}>Contract data is unavailable.</Alert>
-                                </div>
-                            )}
+                            <div className="container">
+                                <Alert type={AlertType.WARNING}>Contract data is unavailable.</Alert>
+                            </div>
+                        )}
                     </>
                 ) : (
-                        <div className="py-6">
-                            <ComponentLoader color={ComponentLoaderColor.DARK} className="mt-6" />
-                        </div>
-                    )}
+                    <div className="py-6">
+                        <ComponentLoader color={ComponentLoaderColor.DARK} className="mt-6" />
+                    </div>
+                )}
             </div>
         </>
     );

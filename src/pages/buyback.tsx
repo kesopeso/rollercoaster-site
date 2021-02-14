@@ -53,7 +53,7 @@ const BuyBack: React.FC<{}> = () => {
                                 <img src="/buyback.png" className="img-fluid mw-md-150 mw-lg-130 mb-6 mb-md-0"></img>
                             </div>
                             <div className="col-12 col-md-6 order-md-1">
-                                <h1 className="text-primary">Buy Back</h1>
+                                <h1 className="text-primary">Buyback</h1>
                                 <p className="lead text-center text-md-left text-muted my-4">
                                     Do you want to earn some extra ETH in just one click? Be the first to trigger the
                                     buyback proccess and earn 1% of the executed buyback amount
@@ -93,9 +93,11 @@ const BuyBack: React.FC<{}> = () => {
                                     <p className="lead text-center text-muted mb-5">
                                         A buyback, also known as a token repurchase, is when the project owners rebuy
                                         their own tokens to reduce the number of tokens available on the open market and
-                                        consequently drive the price up. Our token buyback will occur once every 24h.
+                                        consequently drive the price up. Our token buyback will occur once every 24h for
+                                        10 days straight, starting 24h after the concluded presale.
                                         {isInitialized && (
                                             <span>
+                                                {' '}
                                                 Each time smart contract will buy for{' '}
                                                 {formatDisplayNumber(singleBuyBackDisplay)} ETH worth of ROLL tokens.
                                                 Buyback stats are defined below.

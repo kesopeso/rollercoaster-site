@@ -14,7 +14,6 @@ const Navbar: React.FC<NavbarProps> = ({ activePage }) => {
                     <a className="navbar-brand" href="/">
                         <img
                             src="/logo.png"
-                            width="30"
                             height="30"
                             className="d-inline-block align-top"
                             alt="Rollercoaster"
