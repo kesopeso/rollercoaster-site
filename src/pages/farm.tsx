@@ -284,7 +284,7 @@ const Farm: React.FC<{}> = () => {
                                                             <h5>
                                                                 {nextHalvingFormattedDate}
                                                                 <br />
-                                                                {nextHalvingTimestamp}
+                                                                {nextHalvingFormattedTime}
                                                             </h5>
                                                         ) : (
                                                             <Alert type={AlertType.WARNING}>Data unavailable.</Alert>
