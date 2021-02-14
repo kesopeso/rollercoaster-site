@@ -19,7 +19,7 @@ const Home: React.FC<{}> = () => {
                                 Welcome to <span className="text-primary">ROLLER coaster</span>
                             </h1>
                             <p className="lead text-center text-md-left text-muted mb-6 mb-lg-8 mb-3">
-                                Welcome to the most exciting ROLLER coaster adventure in the DeFi Realm!
+                                The most exciting ROLLER coaster adventure in the DeFi Realm
                             </p>
                             <div className="text-center text-md-left">
                                 <a href="/presale" className="btn btn-lg btn-primary mr-1">
