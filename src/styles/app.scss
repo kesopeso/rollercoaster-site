@@ -227,7 +227,7 @@ th, td {
 @media only screen and (max-width:1199px) {
     .main-timeline {
         .timeline {
-            margin-top: -162px
+            margin-top: -161px
         }
 
         .timeline-content:before {
@@ -243,7 +243,7 @@ th, td {
 @media only screen and (max-width:991px) {
     .main-timeline {
         .timeline {
-            margin-top: -128px
+            margin-top: -116px
         }
         .timeline-content:before {
             left: -2%
@@ -257,7 +257,7 @@ th, td {
 @media only screen and (min-width: 768px) and (max-width:991px) {
     .main-timeline {
         .timeline:nth-child(4) {
-            margin-top: -101px;
+            margin-top: -89px;
         }
         
         .timeline:nth-child(5) {
@@ -285,10 +285,10 @@ th, td {
             margin-top: -162px;
         }
         .timeline:nth-child(3) {
-            margin-top: -42px;
+            margin-top: -29px;
         }
         .timeline:nth-child(4) {
-            margin-top: -30px;
+            margin-top: -17px;
         }
     }
 }
@@ -299,10 +299,10 @@ th, td {
             margin-top: -138px;
         }
         .timeline:nth-child(3) {
-            margin-top: -7px;
+            margin-top: -6px;
         }
         .timeline:nth-child(4) {
-            margin-top: 5px;
+            margin-top: 6px;
         }
     }
 }
