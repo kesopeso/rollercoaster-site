@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import { useContext } from 'react';
-import React from "react";
+import React from 'react';
 import useBuyBack from '../components/hooks/useBuyBack';
 import { Web3Context } from '../components/web3-context-provider';
 import BN from 'bn.js';
@@ -10,9 +10,9 @@ import useBuybackActionButtons from '../components/hooks/useBuybackActionButtons
 import ComponentLoader, { ComponentLoaderColor } from '../components/component-loader';
 import BuyBackTimer from '../components/buyback-timer';
 import { formatDisplayNumber } from '../utils/numbers';
+import Alert, { AlertType } from '../components/alert';
 
 const BuyBack: React.FC<{}> = () => {
-
     const { web3, account, isEthProviderAvailable, isNetworkSupported } = useContext(Web3Context);
 
     const {
@@ -30,13 +30,14 @@ const BuyBack: React.FC<{}> = () => {
         onBuybackClick
     );
 
+    const alreadyBoughtBackDisplay = Web3.utils.fromWei(alreadyBoughtBack);
     const totalBuyBackDisplay = Web3.utils.fromWei(totalBuyBack);
     const singleBuyBackDisplay = Web3.utils.fromWei(singleBuyBack);
     const buyBackRemaingAmount = totalBuyBack.sub(new BN(alreadyBoughtBack));
-    const buyBackRemaingAmountDisplay = Web3.utils.fromWei(buyBackRemaingAmount);
-
-    const singleBuybackAmountToDisplay = !!isInitialized && isNetworkSupported && isEthProviderAvailable ?
-        ` (earn ${formatDisplayNumber(Web3.utils.fromWei(singleBuyBack.div(new BN('100'))))} ETH)` : '';
+    const singleBuybackAmountToDisplay =
+        isInitialized && isNetworkSupported && isEthProviderAvailable
+            ? ` (earn ${formatDisplayNumber(Web3.utils.fromWei(singleBuyBack.div(new BN('100'))))} ETH)`
+            : '';
 
     return (
         <>
@@ -54,24 +55,27 @@ const BuyBack: React.FC<{}> = () => {
                             <div className="col-12 col-md-6 order-md-1">
                                 <h1 className="text-primary">Buy Back</h1>
                                 <p className="lead text-center text-md-left text-muted my-4">
-                                    Do you want to earn some extra ETH in just one click? 
-                                    Be the first to trigger the buyback proccess and earn 1% of the executed buyback amount{singleBuybackAmountToDisplay}.
-                                    In order to do so, you need to hold at least 300 ROLL tokens.
+                                    Do you want to earn some extra ETH in just one click? Be the first to trigger the
+                                    buyback proccess and earn 1% of the executed buyback amount
+                                    {singleBuybackAmountToDisplay}. In order to do so, you need to hold at least 300
+                                    ROLL tokens.
                                 </p>
                                 {isLoading ? (
                                     <ComponentLoader color={ComponentLoaderColor.DARK} className="py-3" />
+                                ) : isInitialized ? (
+                                    buyBackRemaingAmount.gt(new BN(0)) ? (
+                                        <BuyBackTimer
+                                            isBuyBackLoading={isbuybackLoading}
+                                            isAccountSet={!!account}
+                                            buyBackOnClick={buybackOnClickWithLoading}
+                                            nextBuyBackTimestamp={nextBuybackTimestamp}
+                                        />
+                                    ) : (
+                                        <Alert type={AlertType.INFO}>Buyback has been fully executed.</Alert>
+                                    )
                                 ) : (
-                                        <>
-                                            {!!isInitialized && buyBackRemaingAmount.gt(new BN(0)) && (
-                                                <BuyBackTimer
-                                                    isBuyBackLoading={isbuybackLoading}
-                                                    isAccountSet={!!account}
-                                                    buyBackOnClick={buybackOnClickWithLoading}
-                                                    nextBuyBackTimestamp={nextBuybackTimestamp}
-                                                />
-                                            )}
-                                        </>
-                                    )}
+                                    <Alert type={AlertType.INFO}>Buyback has not been initialized.</Alert>
+                                )}
                             </div>
                         </div>
                     </div>
@@ -82,39 +86,27 @@ const BuyBack: React.FC<{}> = () => {
                         <div className="row">
                             <div className="row align-items-center text-center">
                                 <div className="col-8 offset-2">
-                                    <h1><span className="text-primary">How does it work?</span></h1>
+                                    <h1>
+                                        <span className="text-primary">How does it work?</span>
+                                    </h1>
                                     <br />
                                     <p className="lead text-center text-muted mb-5">
-                                        A buyback, also known as a token repurchase, is when a project owners buys its own outstanding tokens to reduce the number of tokens available on the open market.
-                                        Smart contract will buy back
-                                        {
-                                            isInitialized ? (
-                                                <span> {totalBuyBackDisplay}</span>
-                                            ) : (
-                                                    <span> 40%</span>
-                                                )
-                                        } ETH worth of ROLL. Buyback will occure 3 times every 24h. Each time smart contarct will buy
-                                        {
-                                            isInitialized ? (
-                                                <span> {singleBuyBackDisplay}</span>
-                                            ) : (
-                                                    <span> 1/3</span>
-                                                )
-                                        } ETH worth of ROLL.
-                                    {
-                                            !!isInitialized ? (
-                                                <span> Buy back statistic is defined below.</span>
-                                            ) : (
-                                                    <span> Buy back statistic will be defined below.</span>
-                                                )}
+                                        A buyback, also known as a token repurchase, is when the project owners rebuy
+                                        their own tokens to reduce the number of tokens available on the open market and
+                                        consequently drive the price up. Our token buyback will occur once every 24h.
+                                        {isInitialized && (
+                                            <span>
+                                                Each time smart contract will buy for{' '}
+                                                {formatDisplayNumber(singleBuyBackDisplay)} ETH worth of ROLL tokens.
+                                                Buyback stats are defined below.
+                                            </span>
+                                        )}
                                     </p>
                                 </div>
-                                {!!isInitialized && isNetworkSupported && isEthProviderAvailable && (
+                                {isInitialized && isNetworkSupported && isEthProviderAvailable && (
                                     <>
                                         <div className="col-3 offset-3 border-right">
-                                            <h5>
-                                                {formatDisplayNumber(buyBackRemaingAmountDisplay)}
-                                            </h5>
+                                            <h5>{formatDisplayNumber(alreadyBoughtBackDisplay)}</h5>
                                             <span className="lead text-muted">Executed buyback</span>
                                         </div>
                                         <div className="col-3">

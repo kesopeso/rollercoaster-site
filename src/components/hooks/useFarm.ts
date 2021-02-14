@@ -70,7 +70,7 @@ export const getFarmContractAddress = (farm: Farm) => {
         default:
             throw new Error(`Farm of type '${farm}' is not supported.`);
     }
-    
+
     if (!farmAddress) {
         throw new Error(`Environment variable for ${farm} farm address is not defined.`);
     }
@@ -104,7 +104,7 @@ const getApyCommonUnitMultiplier = async (web3: Web3, farm: Farm, farmTokenAddre
         case Farm.ROLL_ETH:
             const rollInEthForUpEthComparison = await getTokenInEthPrice(rollTokenAddress);
             const rollEthInEth = await getUniswapLPTokenInEthPrice(web3, farmTokenAddress);
-            return rollInEthForUpEthComparison / rollEthInEth;   
+            return rollInEthForUpEthComparison / rollEthInEth;
 
         default:
             throw new Error(`Farm of type '${farm}' is not supported.`);
@@ -183,7 +183,6 @@ const useFarm = (activeFarm: Farm) => {
         updateFarmData({ isLoading: true, farmToken });
 
         (async () => {
-
             const farmContractAddress = getFarmContractAddress(activeFarm);
             const farmContract = new web3.eth.Contract(RollerCoasterFarmAbi, farmContractAddress);
             const farmTokenAddress = (await farmContract.methods.farmTokenAddress().call()) as string;
@@ -195,15 +194,12 @@ const useFarm = (activeFarm: Farm) => {
                 return;
             }
             const totalRollSupply = Web3.utils.toBN(await farmContract.methods.totalRewardSupply().call());
-            const currentIntervalTotalReward = Web3.utils.toBN(
-                await farmContract.methods.intervalReward().call()
-            );
+            const currentIntervalTotalReward = Web3.utils.toBN(await farmContract.methods.intervalReward().call());
             const rewardIntervalLengthInDays = Web3.utils.toBN(
-                (await farmContract.methods.REWARD_HALVING_INTERVAL().call()) / (60 * 60 * 24)
+                (await farmContract.methods.rewardIntervalLength().call()) / (60 * 60 * 24)
             );
             const dailyRollReward = currentIntervalTotalReward.div(rewardIntervalLengthInDays);
-            
-            
+
             const nextHalvingTimestamp = Number(await farmContract.methods.nextIntervalTimestamp().call());
             updateFarmData({
                 isLoading: false,
@@ -230,25 +226,25 @@ const useFarm = (activeFarm: Farm) => {
                       .toBN(await farmTokenContract.methods.allowance(account, farmContract.options.address).call())
                       .gt(new BN(0))
                 : false;
-  
+
             const availableAmountForStaking = !!account
                 ? Web3.utils.toBN(await farmTokenContract.methods.balanceOf(account).call())
                 : new BN(0);
-                
+
             const stakedAmount = !!account
                 ? Web3.utils.toBN(await farmContract.methods.singleStaked(account).call())
                 : new BN(0);
-            
+
             const totalStakedAmount = Web3.utils.toBN(await farmContract.methods.totalStaked().call());
-            
+
             const harvestableReward = !!account
                 ? Web3.utils.toBN(await farmContract.methods.harvestable(account).call())
                 : new BN(0);
-            
-                const claimableHarvestedReward = !!account
+
+            const claimableHarvestedReward = !!account
                 ? Web3.utils.toBN(await farmContract.methods.claimable(account).call())
                 : new BN(0);
-            
+
             const totalHarvestedReward = !!account
                 ? Web3.utils.toBN(await farmContract.methods.harvested(account).call())
                 : new BN(0);
@@ -266,6 +262,24 @@ const useFarm = (activeFarm: Farm) => {
         },
         [farmContract, farmTokenContract, hasFarmingStarted, account, updateUserData]
     );
+
+    // harvestable reward refresh
+    useEffect(() => {
+        if (!hasFarmingStarted || !farmContract || !account) {
+            return;
+        }
+
+        const intervalId = setInterval(() => {
+            (async () => {
+                const harvestableReward = Web3.utils.toBN(await farmContract.methods.harvestable(account).call());
+                updateUserData({ harvestableReward });
+            })();
+        }, 60000);
+
+        return () => {
+            clearInterval(intervalId);
+        };
+    }, [farmContract, hasFarmingStarted, account, updateUserData]);
 
     // whenever refresh farm data function updates, we need to call it to get the most recent data
     useEffect(() => {
