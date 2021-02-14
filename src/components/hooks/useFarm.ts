@@ -114,10 +114,10 @@ const getApyCommonUnitMultiplier = async (web3: Web3, farm: Farm, farmTokenAddre
 const getMaxApy = (farm: Farm) => {
     switch (farm) {
         case Farm.ROLL:
-            return 60000;
+            return 40000;
 
         case Farm.ROLL_ETH:
-            return 120000;
+            return 60000;
 
         default:
             throw new Error(`Farm of type '${farm}' is not supported.`);
