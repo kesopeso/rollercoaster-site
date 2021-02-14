@@ -69,7 +69,7 @@ th, td {
 
     .timeline {
         position: relative;
-        margin-top: -114px;
+        margin-top: -126px;
     }
 
     .timeline:first-child {
@@ -227,7 +227,7 @@ th, td {
 @media only screen and (max-width:1199px) {
     .main-timeline {
         .timeline {
-            margin-top: -103px
+            margin-top: -162px
         }
 
         .timeline-content:before {
@@ -243,7 +243,7 @@ th, td {
 @media only screen and (max-width:991px) {
     .main-timeline {
         .timeline {
-            margin-top: -127px
+            margin-top: -128px
         }
         .timeline-content:before {
             left: -2%
@@ -254,11 +254,23 @@ th, td {
     }
 }
 
+@media only screen and (min-width: 768px) and (max-width:991px) {
+    .main-timeline {
+        .timeline:nth-child(4) {
+            margin-top: -101px;
+        }
+        
+        .timeline:nth-child(5) {
+            margin-top: -222px;
+        }
+    }
+}
+
 //postion
 @media only screen and (min-width: 768px) {
     .main-timeline {
         .timeline:nth-child(2) {
-            margin-top: -211px;
+            margin-top: -235px;
         }
         .timeline:nth-child(3) .timeline-content {
             margin: -82px 0;
@@ -270,13 +282,13 @@ th, td {
 @media only screen and (min-width: 992px) {
     .main-timeline {
         .timeline:nth-child(2) {
-            margin-top: -149px;
+            margin-top: -162px;
         }
         .timeline:nth-child(3) {
-            margin-top: -53px;
+            margin-top: -42px;
         }
         .timeline:nth-child(4) {
-            margin-top: -53px;
+            margin-top: -30px;
         }
     }
 }
@@ -284,13 +296,13 @@ th, td {
 @media only screen and (min-width: 1200px) {
     .main-timeline {
         .timeline:nth-child(2) {
-            margin-top: -126px;
+            margin-top: -138px;
         }
         .timeline:nth-child(3) {
-            margin-top: -6px;
+            margin-top: -18px;
         }
         .timeline:nth-child(4) {
-            margin-top: 6px;
+            margin-top: -6px;
         }
     }
 }
