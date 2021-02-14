@@ -28,7 +28,7 @@ export interface IFarmData {
     hasFarmingStarted: boolean;
     totalRollSupply: BN;
     dailyRollReward: BN;
-    nextHalvingTimestamp: number;
+    nextIntervalTimestamp: number;
     farmToken: FarmToken;
     userData: IUserFarmData;
 }
@@ -40,7 +40,7 @@ const defaultFarmData: IFarmData = {
     hasFarmingStarted: false,
     totalRollSupply: new BN(0),
     dailyRollReward: new BN(0),
-    nextHalvingTimestamp: 0,
+    nextIntervalTimestamp: 0,
     farmToken: FarmToken.ROLL,
     userData: {
         isLoading: true,
@@ -102,9 +102,9 @@ const getApyCommonUnitMultiplier = async (web3: Web3, farm: Farm, farmTokenAddre
             return 1;
 
         case Farm.ROLL_ETH:
-            const rollInEthForUpEthComparison = await getTokenInEthPrice(rollTokenAddress);
+            const rollInEth = await getTokenInEthPrice(rollTokenAddress);
             const rollEthInEth = await getUniswapLPTokenInEthPrice(web3, farmTokenAddress);
-            return rollInEthForUpEthComparison / rollEthInEth;
+            return rollInEth / rollEthInEth;
 
         default:
             throw new Error(`Farm of type '${farm}' is not supported.`);
@@ -200,7 +200,7 @@ const useFarm = (activeFarm: Farm) => {
             );
             const dailyRollReward = currentIntervalTotalReward.div(rewardIntervalLengthInDays);
 
-            const nextHalvingTimestamp = Number(await farmContract.methods.nextIntervalTimestamp().call());
+            const nextIntervalTimestamp = Number(await farmContract.methods.nextIntervalTimestamp().call());
             updateFarmData({
                 isLoading: false,
                 hasFarmingStarted,
@@ -208,7 +208,7 @@ const useFarm = (activeFarm: Farm) => {
                 farmTokenContract,
                 totalRollSupply,
                 dailyRollReward,
-                nextHalvingTimestamp,
+                nextIntervalTimestamp,
             });
         })();
     }, [shouldSetFarmData, web3, activeFarm, updateFarmData]);

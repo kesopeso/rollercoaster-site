@@ -55,7 +55,7 @@ const Farm: React.FC<{}> = () => {
         hasFarmingStarted,
         totalRollSupply,
         dailyRollReward,
-        nextHalvingTimestamp,
+        nextIntervalTimestamp,
         userData,
     } = farmData;
     const {
@@ -77,10 +77,10 @@ const Farm: React.FC<{}> = () => {
     const isAccountConnected = !!account;
     const totalRollSupplyDisplay = formatDisplayNumber(Web3.utils.fromWei(totalRollSupply));
     const dailyRollRewardDisplay = formatDisplayNumber(Web3.utils.fromWei(dailyRollReward));
-    const nextHalvingFormattedDate =
-        nextHalvingTimestamp > 0 ? formatDate(fromUnixTime(nextHalvingTimestamp), 'MM/dd/yyyy') : '';
-    const nextHalvingFormattedTime =
-        nextHalvingTimestamp > 0 ? formatDate(fromUnixTime(nextHalvingTimestamp), 'HH:mm:ss') : '';
+    const nextIntervalFormattedDate =
+        nextIntervalTimestamp > 0 ? formatDate(fromUnixTime(nextIntervalTimestamp), 'MM/dd/yyyy') : '';
+    const nextIntervalFormattedTime =
+        nextIntervalTimestamp > 0 ? formatDate(fromUnixTime(nextIntervalTimestamp), 'HH:mm:ss') : '';
     const yourStakeDisplay = formatDisplayNumber(farmTokenValueDisplayer(activeFarm, stakedAmount));
     const totalStakeDisplay = formatDisplayNumber(farmTokenValueDisplayer(activeFarm, totalStakedAmount));
     const totalStakeNumber = Number(totalStakeDisplay);
@@ -207,11 +207,17 @@ const Farm: React.FC<{}> = () => {
                                         Every pool is allocated a certain amount of ROLL tokens immediately after the
                                         presale ends. Every 10 days reward reduction occurs. Reward reduction formula:
                                         <br />
-                                        new reward supply = current reward supply - interval reward;
+                                        <span className="small font-weight-bold">
+                                            new reward supply = current reward supply - interval reward
+                                        </span>
                                         <br />
-                                        new interval reward = 0.2 * new reward supply.
+                                        <span className="small font-weight-bold">
+                                            new interval reward = 0.2 * new reward supply
+                                        </span>
                                         <br />
-                                        new daily reward = new interval reward / 10;
+                                        <span className="small font-weight-bold">
+                                            new daily reward = new interval reward / 10
+                                        </span>
                                         <br />
                                         Rewards are distributed among the pool contributors. Initial ROLL tokens supply
                                         per pool is defined below.
@@ -226,6 +232,7 @@ const Farm: React.FC<{}> = () => {
                                                 >
                                                     etherscan
                                                 </a>
+                                                .
                                             </span>
                                         )}
                                     </p>
@@ -268,7 +275,7 @@ const Farm: React.FC<{}> = () => {
                                                 <span className="lead text-muted">Daily reward</span>
                                             </div>
                                             <div className="col-3 text-center border-right">
-                                                {!isLoading ? (
+                                                {!isApyLoading ? (
                                                     <>
                                                         {isDataValid ? (
                                                             <h5>
@@ -289,9 +296,9 @@ const Farm: React.FC<{}> = () => {
                                                     <>
                                                         {isDataValid ? (
                                                             <h5>
-                                                                {nextHalvingFormattedDate}
+                                                                {nextIntervalFormattedDate}
                                                                 <br />
-                                                                {nextHalvingFormattedTime}
+                                                                {nextIntervalFormattedTime}
                                                             </h5>
                                                         ) : (
                                                             <Alert type={AlertType.WARNING}>Data unavailable.</Alert>
@@ -300,7 +307,7 @@ const Farm: React.FC<{}> = () => {
                                                 ) : (
                                                     <ComponentLoader color={ComponentLoaderColor.DARK} />
                                                 )}
-                                                <span className="lead text-muted">Next Halving</span>
+                                                <span className="lead text-muted">Next reduction</span>
                                             </div>
                                         </div>
                                     )}
