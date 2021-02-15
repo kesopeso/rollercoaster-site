@@ -6,6 +6,7 @@ import RollerCoasterBuyBackAbi from '../../contracts/RollerCoasterBuyBackAbi';
 import RollerCoasterPresaleAbi from '../../contracts/RollerCoasterPresaleAbi';
 import { Subscription } from 'web3-core-subscriptions/types';
 import { Log } from 'web3-core/types';
+import IERC20Abi from '../../contracts/IERC20Abi';
 
 interface IBuyBackData {
     isLoading: boolean;
@@ -14,6 +15,8 @@ interface IBuyBackData {
     totalBuyBack: BN;
     singleBuyBack: BN;
     alreadyBoughtBack: BN;
+    minTokensForBuybackCall: BN;
+    userRollBalance: BN;
 }
 
 const defaultBuyBackData: IBuyBackData = {
@@ -23,6 +26,8 @@ const defaultBuyBackData: IBuyBackData = {
     totalBuyBack: new BN(0),
     singleBuyBack: new BN(0),
     alreadyBoughtBack: new BN(0),
+    minTokensForBuybackCall: new BN(0),
+    userRollBalance: new BN(0)
 };
 
 interface ISingleBuyBackExecuted {
@@ -78,7 +83,7 @@ const useBuyBack = (): IBuyBackData => {
         [setBuyBackData]
     );
 
-    const buyBackContract = new web3.eth.Contract(
+    const buybackContract = new web3.eth.Contract(
         RollerCoasterBuyBackAbi,
         process.env.NEXT_PUBLIC_BUYBACK_CONTRACT_ADDRESS
     );
@@ -86,6 +91,11 @@ const useBuyBack = (): IBuyBackData => {
     const presaleContract = new web3.eth.Contract(
         RollerCoasterPresaleAbi,
         process.env.NEXT_PUBLIC_PRESALE_CONTRACT_ADDRESS
+    );
+
+    const tokenContract = new web3.eth.Contract(
+        IERC20Abi, 
+        process.env.NEXT_PUBLIC_TOKEN_CONTRACT_ADDRESS
     );
 
     useEffect(() => {
@@ -101,7 +111,7 @@ const useBuyBack = (): IBuyBackData => {
         const singleBuyBackExecutedEventSubscription = getSingleBuyBackExecutedEventSubscription(
             web3,
             async ({ _senderRewardAmount, _buybackAmount }) => {
-                const nextBuybackTimestamp = Number(await buyBackContract.methods.nextBuyback().call());
+                const nextBuybackTimestamp = Number(await buybackContract.methods.nextBuyback().call());
 
                 setBuyBackData((currentData) => ({
                     ...currentData,
@@ -114,19 +124,23 @@ const useBuyBack = (): IBuyBackData => {
         (async () => {
             updateBuyBackData({ isLoading: true });
 
-            const totalAmount = Web3.utils.toBN(await buyBackContract.methods.totalAmount().call());
-            const singleAmount = Web3.utils.toBN(await buyBackContract.methods.singleAmount().call());
-            const alreadyBoughtBack = Web3.utils.toBN(await buyBackContract.methods.boughtBackAmount().call());
+            const totalAmount = Web3.utils.toBN(await buybackContract.methods.totalAmount().call());
+            const singleAmount = Web3.utils.toBN(await buybackContract.methods.singleAmount().call());
+            const alreadyBoughtBack = Web3.utils.toBN(await buybackContract.methods.boughtBackAmount().call());
             const isInitialized = await presaleContract.methods.wasPresaleEnded().call();
-            const nextBuybackTimestamp = Number(await buyBackContract.methods.nextBuyback().call());
-
+            const nextBuybackTimestamp = Number(await buybackContract.methods.nextBuyback().call());
+            const userRollBalance = isInitialized && !!account ? Web3.utils.toBN(await tokenContract.methods.balanceOf(account).call()) : new BN(0);
+            const minTokensForBuybackCall = Web3.utils.toBN(await buybackContract.methods.minTokensForBuybackCall().call());
+            
             updateBuyBackData({
                 isInitialized: isInitialized,
                 isLoading: false,
-                nextBuybackTimestamp,
+                nextBuybackTimestamp: nextBuybackTimestamp,
                 totalBuyBack: totalAmount,
                 singleBuyBack: singleAmount,
                 alreadyBoughtBack: alreadyBoughtBack,
+                userRollBalance: userRollBalance,
+                minTokensForBuybackCall: minTokensForBuybackCall
             });
         })();
 

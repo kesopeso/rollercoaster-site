@@ -22,8 +22,13 @@ const BuyBack: React.FC<{}> = () => {
         totalBuyBack,
         singleBuyBack,
         alreadyBoughtBack,
+        minTokensForBuybackCall,
+        userRollBalance
     } = useBuyBack();
 
+    const minTokensForBuybackCallDisplay = formatDisplayNumber(Web3.utils.fromWei(minTokensForBuybackCall));
+
+    const userHasMinTokensForBuybackCall = userRollBalance.gte(minTokensForBuybackCall);
     const { onBuybackClick } = useBuybackActionButtons(web3, isEthProviderAvailable, isNetworkSupported, account);
 
     const { isLoading: isbuybackLoading, onClickWithLoading: buybackOnClickWithLoading } = useOnClickLoadingButton(
@@ -63,13 +68,20 @@ const BuyBack: React.FC<{}> = () => {
                                 {isLoading ? (
                                     <ComponentLoader color={ComponentLoaderColor.DARK} className="py-3" />
                                 ) : isInitialized ? (
+                                    
                                     buyBackRemaingAmount.gt(new BN(0)) ? (
-                                        <BuyBackTimer
-                                            isBuyBackLoading={isbuybackLoading}
-                                            isAccountSet={!!account}
-                                            buyBackOnClick={buybackOnClickWithLoading}
-                                            nextBuyBackTimestamp={nextBuybackTimestamp}
-                                        />
+                                        <>
+                                            <BuyBackTimer
+                                                isBuyBackLoading={isbuybackLoading}
+                                                isAccountSet={!!account}
+                                                buyBackOnClick={buybackOnClickWithLoading}
+                                                nextBuyBackTimestamp={nextBuybackTimestamp}
+                                                userHasMinTokensForBuybackCall={userHasMinTokensForBuybackCall}
+                                            />
+                                            {!userHasMinTokensForBuybackCall && (
+                                                <Alert type={AlertType.WARNING} className="mt-4">Minimum balance to trigger buyback is {minTokensForBuybackCallDisplay} ROLL.</Alert>
+                                            )}
+                                        </>
                                     ) : (
                                         <Alert type={AlertType.INFO}>Buyback has been fully executed.</Alert>
                                     )
@@ -91,10 +103,11 @@ const BuyBack: React.FC<{}> = () => {
                                     </h1>
                                     <br />
                                     <p className="lead text-center text-muted mb-5">
-                                        A buyback, also known as a token repurchase, is when the project owners rebuy
-                                        their own tokens to reduce the number of tokens available on the open market and
-                                        consequently drive the price up. Our token buyback will occur once every 24h for
-                                        10 days straight, starting 24h after the concluded presale.
+                                    A buyback, also known as a token repurchase, is when the project owners rebuy their own tokens to reduce the number of tokens available on the open market and consequently drive the price up.
+                                    Our token buyback will occur once every 24h for 10 days straight, starting 24h after the concluded presale. 
+                                    If we divide the buyback, 0.24 ETH goes to the buyback caller and 23.76 ETH goes for the actual buyback and all this goes to liquidity, tokens that are bought go to the treasury.
+                                    And this is where Governance comes into play, where community will decide what happens with treasury, more in Governance tab.
+                                    This numbers are only valid if we reach hardcap, meaning if we reach lower number the buyback will also be proportionally lower.
                                         {isInitialized && (
                                             <span>
                                                 {' '}
@@ -108,11 +121,11 @@ const BuyBack: React.FC<{}> = () => {
                                 {isInitialized && isNetworkSupported && isEthProviderAvailable && (
                                     <>
                                         <div className="col-3 offset-3 border-right">
-                                            <h5>{formatDisplayNumber(alreadyBoughtBackDisplay)}</h5>
+                                            <h5>{formatDisplayNumber(alreadyBoughtBackDisplay)} ETH</h5>
                                             <span className="lead text-muted">Executed buyback</span>
                                         </div>
                                         <div className="col-3">
-                                            <h5>{formatDisplayNumber(totalBuyBackDisplay)}</h5>
+                                            <h5>{formatDisplayNumber(totalBuyBackDisplay)} ETH</h5>
                                             <span className="lead text-muted">Total buyback</span>
                                         </div>
                                     </>

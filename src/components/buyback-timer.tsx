@@ -6,9 +6,10 @@ export interface BuyBackProps {
     nextBuyBackTimestamp: number;
     buyBackOnClick: () => void;
     isAccountSet: boolean;
+    userHasMinTokensForBuybackCall: boolean;
 }
 
-const BuyBackTimer: React.FC<BuyBackProps> = ({ isAccountSet, isBuyBackLoading, buyBackOnClick, nextBuyBackTimestamp }) => {
+const BuyBackTimer: React.FC<BuyBackProps> = ({ isAccountSet, isBuyBackLoading, buyBackOnClick, nextBuyBackTimestamp, userHasMinTokensForBuybackCall }) => {
     const [secondsUntilBuyBack, setSecondsUntilBuyBack] = useState(0);
 
     useEffect(() => {
@@ -41,7 +42,7 @@ const BuyBackTimer: React.FC<BuyBackProps> = ({ isAccountSet, isBuyBackLoading, 
                 <ActionButton
                     isLoading={isBuyBackLoading}
                     onClick={buyBackOnClick}
-                    isDisabled={isBuyBackLoading || !isAccountSet || secondsUntilBuyBack > 0}
+                    isDisabled={isBuyBackLoading || !isAccountSet || secondsUntilBuyBack > 0 || !userHasMinTokensForBuybackCall}
                 >
                     Send transaction
             </ActionButton>

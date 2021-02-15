@@ -54,9 +54,9 @@ const Presale: React.FC<{}> = () => {
                                     will be <b>45 ROLL</b> for 1 ETH. Presale will stop as soon as the hard cap is
                                     reached. If the hard cap isn't reached, we will open contributions for everyone on
                                     the FCFS basis. FCFS duration will be announced on our official channels (Discord,
-                                    Telegram). 60% of the collected funds (360 ETH) is going to be used for Uniswap liqudity.
-                                    At the Uniswap listing we're going to inject 120 ETH + 5400 ROLL to the liquidity pool. 
-                                    We'll start adding 24 ETH to liquidity each day after the listing on Uniswap, and so on for the next 10 days (360ETH in total). 
+                                    Telegram). 60% of the collected funds (360 ETH) is going to be used for Uniswap liquidity.
+                                    At the Uniswap listing we're going to inject 120 ETH + 5400 ROLL to the liquidity pool.
+                                    We'll start adding 24 ETH to liquidity each day after the listing on Uniswap, and so on for the next 10 days (360ETH in total).
                                     Liquidity will be locked for 6 months.
                                 </p>
                                 <div className="row">
@@ -83,7 +83,7 @@ const Presale: React.FC<{}> = () => {
                                     </div>
                                 </div>
                             </div>
-                            
+
                         </div>
                     </div>
                 </div>
@@ -106,10 +106,10 @@ const Presale: React.FC<{}> = () => {
                                                                     Presale has not started yet.
                                                                 </span>
                                                             ) : (
-                                                                <span className="muted">
-                                                                    Presale has been concluded.
-                                                                </span>
-                                                            )}
+                                                                    <span className="muted">
+                                                                        Presale has been concluded.
+                                                                    </span>
+                                                                )}
                                                         </p>
                                                     )}
 
@@ -124,10 +124,10 @@ const Presale: React.FC<{}> = () => {
                                                                         Only whitelist addresses can contribute.
                                                                     </span>
                                                                 ) : (
-                                                                    <span className="text-primary">
-                                                                        Anyone can contribute (FCFS is active).
-                                                                    </span>
-                                                                )}
+                                                                        <span className="text-primary">
+                                                                            Anyone can contribute (FCFS is active).
+                                                                        </span>
+                                                                    )}
                                                             </p>
                                                         </>
                                                     )}
@@ -183,20 +183,20 @@ const Presale: React.FC<{}> = () => {
                                                                     You are not eligible to participate in our presale.
                                                                 </p>
                                                             ) : (
-                                                                <p className="card-text muted">
-                                                                    Please wait until presale starts.
-                                                                </p>
-                                                            )
+                                                                        <p className="card-text muted">
+                                                                            Please wait until presale starts.
+                                                                        </p>
+                                                                    )
                                                         ) : (
-                                                            <Alert type={AlertType.INFO}>
-                                                                Connect your wallet via MetaMask to check your
-                                                                contribution.
-                                                            </Alert>
-                                                        ))}
+                                                                <Alert type={AlertType.INFO}>
+                                                                    Connect your wallet via MetaMask to check your
+                                                                    contribution.
+                                                                </Alert>
+                                                            ))}
                                                 </>
                                             ) : (
-                                                <Alert type={AlertType.WARNING}>Contract data is unavailable.</Alert>
-                                            )}
+                                                        <Alert type={AlertType.WARNING}>Contract data is unavailable.</Alert>
+                                                    )}
                                         </Card>
                                     </div>
 
