@@ -70,7 +70,7 @@ const Home: React.FC<{}> = () => {
                                         <span className="year">1</span>
                                     </div>
                                     <div className="timeline-content">
-                                        <h3 className="title">Private sale</h3>
+                                        <h3 className="title">Presale</h3>
                                         <p className="description">
                                             Once we start the presale process, everybody who is whitelisted will be able
                                             to contribute. If by the end of the presale hardcap is not reached, we will
