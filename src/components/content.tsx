@@ -16,7 +16,15 @@ const Content: React.FC<{}> = ({ children }) => {
 
             {isEthProviderAvailable && !isNetworkSupported && (
                 <MetaMaskAlert type={AlertType.WARNING}>
-                    Sorry, the selected Ethereum network is not supported.
+                    Sorry, the selected Ethereum network is not supported. Please connect to Binance Smart Chain. Click{' '}
+                    <a
+                        href="https://academy.binance.com/en/articles/connecting-metamask-to-binance-smart-chain"
+                        target="_blank"
+                        className="alert-link"
+                    >
+                        here
+                    </a>{' '}
+                    for instructions.
                 </MetaMaskAlert>
             )}
 
