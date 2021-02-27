@@ -3,7 +3,7 @@ import { Token, Fetcher, Route, WETH, ChainId } from '@pancakeswap-libs/sdk';
 import Web3 from 'web3';
 import IERC20Abi from '../contracts/IERC20Abi';
 
-export const getUniswapChainId = () => {
+export const getPancakeswapChainId = () => {
     switch (process.env.NEXT_PUBLIC_ENVIRONMENT) {
         case NextEnvironment.DEVELOPMENT:
         case NextEnvironment.STAGING:
@@ -19,7 +19,7 @@ export const getUniswapChainId = () => {
 
 export const getTokenInEthPrice = async (tokenAddress: string) => {
     try {
-        const chainId = getUniswapChainId();
+        const chainId = getPancakeswapChainId();
         const TOKEN = new Token(chainId, tokenAddress, 18);
         const pair = await Fetcher.fetchPairData(TOKEN, WETH[chainId]);
         const route = new Route([pair], TOKEN);
@@ -33,16 +33,16 @@ export const getTokenInEthPrice = async (tokenAddress: string) => {
     }
 };
 
-export const getUniswapLPTokenInEthPrice = async (web3: Web3, tokenAddress: string) => {
-    const totalUniLPTokenSupply = await getUniswapLPTokenTotalSupply(web3, tokenAddress);
-    const wethContract = new web3.eth.Contract(IERC20Abi, WETH[getUniswapChainId()].address);
+export const getPancakeswapLPTokenInEthPrice = async (web3: Web3, tokenAddress: string) => {
+    const totalUniLPTokenSupply = await getPancakeswapLPTokenTotalSupply(web3, tokenAddress);
+    const wethContract = new web3.eth.Contract(IERC20Abi, WETH[getPancakeswapChainId()].address);
     const uniLPTokenWethsReserve = Number(
         Web3.utils.fromWei(await wethContract.methods.balanceOf(tokenAddress).call())
     );
     return (uniLPTokenWethsReserve * 2) / totalUniLPTokenSupply;
 };
 
-const getUniswapLPTokenTotalSupply = async (web3: Web3, tokenAddress: string) => {
+const getPancakeswapLPTokenTotalSupply = async (web3: Web3, tokenAddress: string) => {
     const uniLPTokenContract = new web3.eth.Contract(IERC20Abi, tokenAddress);
     let totalUniLPTokenSupply = Number(Web3.utils.fromWei(await uniLPTokenContract.methods.totalSupply().call()));
     return totalUniLPTokenSupply > 0 ? totalUniLPTokenSupply : 1; // this is to prevent issues when dividing by zero

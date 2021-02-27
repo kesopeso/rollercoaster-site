@@ -5,7 +5,7 @@ import { Web3Context } from '../web3-context-provider';
 import RollerCoasterFarmAbi from '../../contracts/RollerCoasterFarmAbi';
 import IERC20Abi from '../../contracts/IERC20Abi';
 import Web3 from 'web3';
-import { getTokenInEthPrice, getUniswapLPTokenInEthPrice } from '../../utils/uniswap';
+import { getTokenInEthPrice, getPancakeswapLPTokenInEthPrice } from '../../utils/pancakeswap';
 import { Contract } from 'web3-eth-contract';
 
 export interface IUserFarmData {
@@ -103,7 +103,7 @@ const getApyCommonUnitMultiplier = async (web3: Web3, farm: Farm, farmTokenAddre
 
         case Farm.ROLL_ETH:
             const rollInEth = await getTokenInEthPrice(rollTokenAddress);
-            const rollEthInEth = await getUniswapLPTokenInEthPrice(web3, farmTokenAddress);
+            const rollEthInEth = await getPancakeswapLPTokenInEthPrice(web3, farmTokenAddress);
             return rollInEth / rollEthInEth;
 
         default:

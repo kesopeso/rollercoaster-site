@@ -86,7 +86,7 @@ const Home: React.FC<{}> = () => {
                                         <h3 className="title">Providing Liquidity</h3>
                                         <p className="description">
                                             60% of the collected funds (360 ETH if the hardcap is reached) is going to
-                                            be used for Uniswap liquidity. We will initially add 20% of the collected
+                                            be used for Pancakeswap liquidity. We will initially add 20% of the collected
                                             funds (120 ETH) and gradually 40% more (240 ETH) via our buyback program.
                                         </p>
                                     </div>
