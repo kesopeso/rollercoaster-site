@@ -1,5 +1,5 @@
 import { NextEnvironment } from './enums';
-import { Token, Fetcher, Route, WETH, ChainId } from '@uniswap/sdk';
+import { Token, Fetcher, Route, WETH, ChainId } from '@pancakeswap-libs/sdk';
 import Web3 from 'web3';
 import IERC20Abi from '../contracts/IERC20Abi';
 
@@ -7,7 +7,7 @@ export const getUniswapChainId = () => {
     switch (process.env.NEXT_PUBLIC_ENVIRONMENT) {
         case NextEnvironment.DEVELOPMENT:
         case NextEnvironment.STAGING:
-            return ChainId.RINKEBY;
+            return ChainId.BSCTESTNET;
 
         case NextEnvironment.PRODUCTION:
             return ChainId.MAINNET;
