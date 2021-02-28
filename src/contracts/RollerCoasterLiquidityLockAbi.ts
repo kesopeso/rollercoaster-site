@@ -29,7 +29,6 @@ export default [
         ],
         stateMutability: 'view',
         type: 'function',
-        constant: true,
     },
     {
         inputs: [],
@@ -50,7 +49,6 @@ export default [
         ],
         stateMutability: 'view',
         type: 'function',
-        constant: true,
     },
     {
         inputs: [],
@@ -64,6 +62,5 @@ export default [
         ],
         stateMutability: 'view',
         type: 'function',
-        constant: true,
     },
 ] as AbiItem[];

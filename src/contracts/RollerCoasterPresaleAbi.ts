@@ -90,7 +90,7 @@ export default [
     },
     {
         inputs: [],
-        name: 'uniswapPairAddress',
+        name: 'pancakeswapPairAddress',
         outputs: [
             {
                 internalType: 'address',
@@ -129,7 +129,7 @@ export default [
     },
     {
         inputs: [],
-        name: 'uniswapRouterAddress',
+        name: 'pancakeswapRouterAddress',
         outputs: [
             {
                 internalType: 'address',
@@ -314,7 +314,7 @@ export default [
             },
             {
                 internalType: 'address',
-                name: '_uniswapPair',
+                name: '_pancakeswapPair',
                 type: 'address',
             },
             {
@@ -329,7 +329,7 @@ export default [
             },
             {
                 internalType: 'address',
-                name: '_uniswapRouter',
+                name: '_pancakeswapRouter',
                 type: 'address',
             },
             {
