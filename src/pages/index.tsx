@@ -85,9 +85,9 @@ const Home: React.FC<{}> = () => {
                                     <div className="timeline-content">
                                         <h3 className="title">Providing Liquidity</h3>
                                         <p className="description">
-                                            60% of the collected funds (360 ETH if the hardcap is reached) is going to
+                                            60% of the collected funds (360 BNB if the hardcap is reached) is going to
                                             be used for Pancakeswap liquidity. We will initially add 20% of the collected
-                                            funds (120 ETH) and gradually 40% more (240 ETH) via our buyback program.
+                                            funds (120 BNB) and gradually 40% more (240 BNB) via our buyback program.
                                         </p>
                                     </div>
                                 </div>

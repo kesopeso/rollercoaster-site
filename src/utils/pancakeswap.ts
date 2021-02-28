@@ -28,7 +28,7 @@ export const getTokenInEthPrice = async (tokenAddress: string) => {
         if (process.env.NEXT_PUBLIC_ENVIRONMENT !== NextEnvironment.PRODUCTION) {
             return 1; // in development/staging env we access rinkeby network, where WBTC is not defined... so we fake the data
         }
-        console.log('Error occured while getting token price in eth', e);
+        console.log('Error occured while getting token price in bnb', e);
         throw e;
     }
 };

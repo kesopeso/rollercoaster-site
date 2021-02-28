@@ -41,7 +41,7 @@ const BuyBack: React.FC<{}> = () => {
     const buyBackRemaingAmount = totalBuyBack.sub(new BN(alreadyBoughtBack));
     const singleBuybackAmountToDisplay =
         isInitialized && isNetworkSupported && isEthProviderAvailable
-            ? ` (earn ${formatDisplayNumber(Web3.utils.fromWei(singleBuyBack.div(new BN('100'))))} ETH)`
+            ? ` (earn ${formatDisplayNumber(Web3.utils.fromWei(singleBuyBack.div(new BN('100'))))} BNB)`
             : '';
 
     return (
@@ -60,7 +60,7 @@ const BuyBack: React.FC<{}> = () => {
                             <div className="col-12 col-md-6 order-md-1">
                                 <h1 className="text-primary">Buyback</h1>
                                 <p className="lead text-center text-md-left text-muted my-4">
-                                    Do you want to earn some extra ETH in just one click? Be the first to trigger the
+                                    Do you want to earn some extra BNB in just one click? Be the first to trigger the
                                     buyback proccess and earn 1% of the executed buyback amount
                                     {singleBuybackAmountToDisplay}. In order to do so, you need to hold at least 300
                                     ROLL tokens.
@@ -105,14 +105,14 @@ const BuyBack: React.FC<{}> = () => {
                                     <p className="lead text-center text-muted mb-5">
                                     A buyback, also known as a token repurchase, is when the project owners rebuy their own tokens to reduce the number of tokens available on the open market and consequently drive the price up.
                                     Our token buyback will occur once every 24h for 10 days straight, starting 24h after the concluded presale. 
-                                    If we divide the buyback, 0.24 ETH goes to the buyback caller and 23.76 ETH goes for the actual buyback and all this goes to liquidity, tokens that are bought go to the treasury.
+                                    If we divide the buyback, 0.24 BNB goes to the buyback caller and 23.76 BNB goes for the actual buyback and all this goes to liquidity, tokens that are bought go to the treasury.
                                     And this is where Governance comes into play, where community will decide what happens with treasury, more in Governance tab.
                                     This numbers are only valid if we reach hardcap, meaning if we reach lower number the buyback will also be proportionally lower.
                                         {isInitialized && (
                                             <span>
                                                 {' '}
                                                 Each time smart contract will buy for{' '}
-                                                {formatDisplayNumber(singleBuyBackDisplay)} ETH worth of ROLL tokens.
+                                                {formatDisplayNumber(singleBuyBackDisplay)} BNB worth of ROLL tokens.
                                                 Buyback stats are defined below.
                                             </span>
                                         )}
@@ -121,11 +121,11 @@ const BuyBack: React.FC<{}> = () => {
                                 {isInitialized && isNetworkSupported && isEthProviderAvailable && (
                                     <>
                                         <div className="col-3 offset-3 border-right">
-                                            <h5>{formatDisplayNumber(alreadyBoughtBackDisplay)} ETH</h5>
+                                            <h5>{formatDisplayNumber(alreadyBoughtBackDisplay)} BNB</h5>
                                             <span className="lead text-muted">Executed buyback</span>
                                         </div>
                                         <div className="col-3">
-                                            <h5>{formatDisplayNumber(totalBuyBackDisplay)} ETH</h5>
+                                            <h5>{formatDisplayNumber(totalBuyBackDisplay)} BNB</h5>
                                             <span className="lead text-muted">Total buyback</span>
                                         </div>
                                     </>

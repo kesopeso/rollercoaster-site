@@ -15,7 +15,7 @@ const FarmSelection: React.FC<FarmSelectionProps> = ({ isLoading, activeFarm, se
                 ROLL farm
             </FarmLink>
             <FarmLink onClick={(f) => !isLoading && setActiveFarm(f)} activeFarm={activeFarm} farm={Farm.ROLL_ETH}>
-                ROLL/ETH farm
+                ROLL/BNB farm
             </FarmLink>
         </div>
     );
