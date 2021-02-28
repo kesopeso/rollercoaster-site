@@ -4,12 +4,12 @@ export const getEtherScanUrl = (suffix: string | null = null) => {
     let urlBase: string;
     switch (process.env.NEXT_PUBLIC_ENVIRONMENT) {
         case NextEnvironment.DEVELOPMENT:
-        case NextEnvironment.STAGING:
-            urlBase = 'https://rinkeby.etherscan.io';
+            urlBase = 'https://testnet.bscscan.com';
             break;
 
+        case NextEnvironment.STAGING:
         case NextEnvironment.PRODUCTION:
-            urlBase = 'https://etherscan.io';
+            urlBase = 'https://bscscan.com';
             break;
 
         default:

@@ -6,9 +6,9 @@ import IERC20Abi from '../contracts/IERC20Abi';
 export const getPancakeswapChainId = () => {
     switch (process.env.NEXT_PUBLIC_ENVIRONMENT) {
         case NextEnvironment.DEVELOPMENT:
-        case NextEnvironment.STAGING:
             return ChainId.BSCTESTNET;
 
+        case NextEnvironment.STAGING:
         case NextEnvironment.PRODUCTION:
             return ChainId.MAINNET;
 
