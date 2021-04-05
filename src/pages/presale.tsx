@@ -50,11 +50,11 @@ const Presale: React.FC<{}> = () => {
                             <div className="col-12 col-md-7 col-lg-6">
                                 <h1 className="text-primary">Presale</h1>
                                 <p className="mb-4 lead text-muted">
-                                    <b>Presale</b> investors will get <b>100 ROLL</b> for 1 BNB and <b>listing</b> price
-                                    will be <b>45 ROLL</b> for 1 BNB. Presale will stop as soon as the hard cap is
+                                    <b>Presale</b> investors will get <b>20 ROLL</b> for 1 BNB and <b>listing</b> price
+                                    will be <b>44 ROLL</b> for 1 BNB. Presale will stop as soon as the hard cap is
                                     reached. If the hard cap isn't reached, we will open contributions for everyone on
                                     the FCFS basis. FCFS duration will be announced on our official channels (Discord,
-                                    Telegram). 60% of the collected funds (360 BNB) is going to be used for Pancakeswap
+                                    Telegram). 60% of the collected funds (1800 BNB) is going to be used for Pancakeswap
                                     liquidity. At the Pancakeswap listing we're going to inject 120 BNB + 5400 ROLL to
                                     the liquidity pool. We'll start adding 24 BNB to liquidity each day after the
                                     listing on Pancakeswap, and so on for the next 10 days (360 BNB in total). Liquidity
