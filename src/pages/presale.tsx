@@ -50,14 +50,14 @@ const Presale: React.FC<{}> = () => {
                             <div className="col-12 col-md-7 col-lg-6">
                                 <h1 className="text-primary">Presale</h1>
                                 <p className="mb-4 lead text-muted">
-                                    <b>Presale</b> investors will get <b>20 ROLL</b> for 1 BNB and <b>listing</b> price
-                                    will be <b>44 ROLL</b> for 1 BNB. Presale will stop as soon as the hard cap is
+                                    <b>Presale</b> investors will get <b>4000 ROLL</b> for 1 BNB and <b>listing</b> price
+                                    will be <b> ROLL</b> for 1 BNB. Presale will stop as soon as the hard cap is
                                     reached. If the hard cap isn't reached, we will open contributions for everyone on
                                     the FCFS basis. FCFS duration will be announced on our official channels (Discord,
-                                    Telegram). 60% of the collected funds (1800 BNB) is going to be used for Pancakeswap
-                                    liquidity. At the Pancakeswap listing we're going to inject 120 BNB + 5400 ROLL to
-                                    the liquidity pool. We'll start adding 24 BNB to liquidity each day after the
-                                    listing on Pancakeswap, and so on for the next 10 days (360 BNB in total). Liquidity
+                                    Telegram). 60% of the collected funds (900 BNB) is going to be used for Pancakeswap
+                                    liquidity. At the Pancakeswap listing we're going to inject 300 BNB + 5400000 ROLL to
+                                    the liquidity pool. We'll start adding 60 BNB to liquidity each day after the
+                                    listing on Pancakeswap, and so on for the next 10 days (600 BNB in total). Liquidity
                                     will be locked for 6 months.
                                 </p>
                                 <div className="row">
@@ -67,7 +67,7 @@ const Presale: React.FC<{}> = () => {
                                     <div className="col-11 mb-3">
                                         <h4 className="mb-0">Hard cap</h4>
                                         <span className="lead text-muted mb-3">
-                                            Total hard cap is <b>600 BNB</b>.{' '}
+                                            Total hard cap is <b>1500 BNB</b>.{' '}
                                         </span>
                                     </div>
                                 </div>
@@ -79,7 +79,7 @@ const Presale: React.FC<{}> = () => {
                                     <div className="col-11">
                                         <h4 className="mb-0">Maximum contribution</h4>
                                         <span className="lead text-muted">
-                                            Maximum contribution per address is <b>3 BNB</b>.
+                                            Maximum contribution per address is <b>5 BNB</b>.
                                         </span>
                                     </div>
                                 </div>
@@ -135,7 +135,7 @@ const Presale: React.FC<{}> = () => {
                                                     {(isActive || wasEnded) && (
                                                         <>
                                                             <p className="card-text mb-0">
-                                                                Collected ETHs ({collectedSupplyDisplay} /{' '}
+                                                                Collected BNBs ({collectedSupplyDisplay} /{' '}
                                                                 {totalSupplyDisplay})
                                                             </p>
                                                             <div className="progress">
@@ -160,7 +160,7 @@ const Presale: React.FC<{}> = () => {
                                                                         You are eligible to participate in our presale.
                                                                     </p>
                                                                     <p className="card-text mb-0">
-                                                                        Your contribution in ETHs (
+                                                                        Your contribution in BNBs (
                                                                         {accountContributionDisplay} /{' '}
                                                                         {totalAccountContributionDisplay})
                                                                     </p>
