@@ -62,7 +62,7 @@ const BuyBack: React.FC<{}> = () => {
                                 <p className="lead text-center text-md-left text-muted my-4">
                                     Do you want to earn some extra BNB in just one click? Be the first to trigger the
                                     buyback proccess and earn 1% of the executed buyback amount
-                                    {singleBuybackAmountToDisplay}. In order to do so, you need to hold at least 300000
+                                    {singleBuybackAmountToDisplay}. In order to do so, you need to hold at least 200000
                                     ROLL tokens.
                                 </p>
                                 {isLoading ? (
@@ -105,7 +105,7 @@ const BuyBack: React.FC<{}> = () => {
                                     <p className="lead text-center text-muted mb-5">
                                     A buyback, also known as a token repurchase, is when the project owners rebuy their own tokens to reduce the number of tokens available on the open market and consequently drive the price up.
                                     Our token buyback will occur once every 24h for 10 days straight, starting 24h after the concluded presale. 
-                                    If we divide the buyback, 0.6 BNB goes to the buyback caller and 59.4 BNB goes for the actual buyback and all this goes to liquidity, tokens that are bought go to the treasury.
+                                    If we divide the buyback, 0.4 BNB goes to the buyback caller and 39.6 BNB goes for the actual buyback and all this goes to liquidity, tokens that are bought go to the treasury.
                                     And this is where Governance comes into play, where community will decide what happens with treasury, more in Governance tab.
                                     This numbers are only valid if we reach hardcap, meaning if we reach lower number the buyback will also be proportionally lower.
                                         {isInitialized && (

@@ -54,10 +54,10 @@ const Presale: React.FC<{}> = () => {
                                     will be <b> ROLL</b> for 1 BNB. Presale will stop as soon as the hard cap is
                                     reached. If the hard cap isn't reached, we will open contributions for everyone on
                                     the FCFS basis. FCFS duration will be announced on our official channels (Discord,
-                                    Telegram). 60% of the collected funds (900 BNB) is going to be used for Pancakeswap
-                                    liquidity. At the Pancakeswap listing we're going to inject 300 BNB + 5400000 ROLL to
-                                    the liquidity pool. We'll start adding 60 BNB to liquidity each day after the
-                                    listing on Pancakeswap, and so on for the next 10 days (600 BNB in total). Liquidity
+                                    Telegram). 60% of the collected funds (600 BNB) is going to be used for Pancakeswap
+                                    liquidity. At the Pancakeswap listing we're going to inject 200 BNB + 3600000 ROLL to
+                                    the liquidity pool. We'll start adding 40 BNB to liquidity each day after the
+                                    listing on Pancakeswap, and so on for the next 10 days (400 BNB in total). Liquidity
                                     will be locked for 6 months.
                                 </p>
                                 <div className="row">
@@ -67,7 +67,7 @@ const Presale: React.FC<{}> = () => {
                                     <div className="col-11 mb-3">
                                         <h4 className="mb-0">Hard cap</h4>
                                         <span className="lead text-muted mb-3">
-                                            Total hard cap is <b>1500 BNB</b>.{' '}
+                                            Total hard cap is <b>1000 BNB</b>.{' '}
                                         </span>
                                     </div>
                                 </div>
