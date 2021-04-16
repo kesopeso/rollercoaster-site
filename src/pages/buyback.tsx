@@ -62,7 +62,7 @@ const BuyBack: React.FC<{}> = () => {
                                 <p className="lead text-center text-md-left text-muted my-4">
                                     Do you want to earn some extra BNB in just one click? Be the first to trigger the
                                     buyback proccess and earn 1% of the executed buyback amount
-                                    {singleBuybackAmountToDisplay}. In order to do so, you need to hold at least 300000
+                                    {singleBuybackAmountToDisplay}. In order to do so, you need to hold at least 300,000
                                     ROLL tokens.
                                 </p>
                                 {isLoading ? (

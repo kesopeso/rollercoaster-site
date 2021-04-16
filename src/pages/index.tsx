@@ -87,7 +87,7 @@ const Home: React.FC<{}> = () => {
                                         <p className="description">
                                             60% of the collected funds (1,000 BNB if the hardcap is reached) is going to
                                             be used for Pancakeswap liquidity. We will initially add 20% of the collected
-                                            funds ( 200 BNB ) and gradually 40% more ( 400 BNB ) via our buyback program.
+                                            funds (200 BNB) and gradually 40% more (400 BNB) via our buyback program.
                                         </p>
                                     </div>
                                 </div>
